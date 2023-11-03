@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">MarvelBook</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="coleccion">Colección</string>
+    <string name="mazo">Mazo</string>
+    <string name="tienda">Tienda</string>
+
+
+    <string name="action_search">Buscar</string>
+    <string name="action_settings">Ajustes</string>
 </resources>
