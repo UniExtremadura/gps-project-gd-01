@@ -11,4 +11,5 @@
     <color name="rojoPrincipal">#FC0000</color>
     <color name="colorInactive">#808080</color>
     <color name="colorActive">#000000</color>
+    <color name="rojoRegistro">#FC0000</color>
 </resources>
