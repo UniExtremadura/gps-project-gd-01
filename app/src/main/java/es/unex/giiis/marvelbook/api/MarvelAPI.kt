@@ -1,8 +1,9 @@
 package es.unex.giiis.marvelbook.api
 
-import es.unex.giiis.marvelbook.data.api.PersonajeCabecera
+import es.unex.giiis.marvelbook.data.api.ComicCabecera
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import es.unex.giiis.marvelbook.data.api.PersonajeCabecera
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,10 +28,17 @@ fun getNetworkService() = service
 
 interface MarvelAPI {
 
+
+    @GET("comics?ts=1&apikey=320e1b5bed8c8bdb3aa5366857f05023&hash=6bcb692a16cd638fd8dad21766b4fac7")
+    suspend fun getComics(
+        @Query("offset") offset: Int
+    ): ComicCabecera
+
     @GET("characters?ts=1&apikey=320e1b5bed8c8bdb3aa5366857f05023&hash=6bcb692a16cd638fd8dad21766b4fac7")
     suspend fun getPersonajes(
         @Query("offset") offset: Int
     ): PersonajeCabecera
+
 
 }
 

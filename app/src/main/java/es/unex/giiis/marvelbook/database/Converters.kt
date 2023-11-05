@@ -4,7 +4,6 @@ import android.text.TextUtils
 import androidx.room.TypeConverter
 import java.util.Arrays
 
-
 class Converters {
     @TypeConverter
     fun fromIntegerList(integerList: List<Int>?): String? {

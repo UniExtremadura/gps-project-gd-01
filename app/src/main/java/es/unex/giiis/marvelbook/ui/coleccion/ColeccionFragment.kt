@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.api.APIError
 import es.unex.giiis.marvelbook.api.getNetworkService
+import es.unex.giiis.marvelbook.data.api.toComic
 import es.unex.giiis.marvelbook.data.api.toPersonaje
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentColeccionBinding
@@ -60,6 +61,9 @@ class ColeccionFragment : Fragment() {
         _binding = null
     }
 
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -90,7 +94,55 @@ class ColeccionFragment : Fragment() {
                 }
             }
         }
+        lifecycleScope.launch {
+
+            withContext(Dispatchers.IO) {
+                if (db.comicDAO().numeroComics() < 1) {
+                    withContext(Dispatchers.Main) {
+                        binding.spinner.visibility = View.VISIBLE
+                    }
+                    try {
+                        fetchShowsComics()
+
+                    } catch (error: APIError) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                        }
+                    } finally {
+                        withContext(Dispatchers.Main) {
+                            binding.spinner.visibility = View.GONE
+                        }
+
+                    }
+                } else {
+
+                    //TODO procesar los datos de los comics desde la base de datos
+                    //db.comicDAO().getAll()
+                }
+            }
+        }
     }
+
+    private suspend fun fetchShowsComics() {
+
+        try {
+
+            for (i in 0..500 step 20) {
+
+                for (aux in getNetworkService().getComics(i).data?.results ?: listOf()) {
+                    if(db.comicDAO().obtenerComic(aux.toComic().id).isEmpty()){
+                        db.comicDAO().insertarComic(aux.toComic())
+                    }
+
+                }
+            }
+
+        } catch (cause: Throwable) {
+
+            throw APIError("Unable to fetch data from API", cause)
+        }
+    }
+
 
     private suspend fun fetchShows() {
 
@@ -99,7 +151,7 @@ class ColeccionFragment : Fragment() {
             for (i in 0..200 step 20) {
 
                 for (aux in getNetworkService().getPersonajes(i).data?.results ?: listOf()) {
-                    db.personajeDAO().insertarPersonaje(aux.toPersonaje());
+                    db.personajeDAO().insertarPersonaje(aux.toPersonaje())
                 }
             }
 
