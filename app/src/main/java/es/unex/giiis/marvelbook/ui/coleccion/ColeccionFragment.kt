@@ -15,6 +15,7 @@ import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.api.APIError
 import es.unex.giiis.marvelbook.api.getNetworkService
 import es.unex.giiis.marvelbook.data.api.toComic
+import es.unex.giiis.marvelbook.data.api.toCreador
 import es.unex.giiis.marvelbook.data.api.toPersonaje
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentColeccionBinding
@@ -121,6 +122,37 @@ class ColeccionFragment : Fragment() {
                 }
             }
         }
+
+
+        lifecycleScope.launch {
+
+            withContext(Dispatchers.IO) {
+                if (db.creadorDAO().numeroCreadores() < 1) {
+                    withContext(Dispatchers.Main) {
+                        binding.spinner.visibility = View.VISIBLE
+                    }
+                    try {
+
+                        fetchShowsCreators()
+
+                    } catch (error: APIError) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+                        }
+                    } finally {
+                        withContext(Dispatchers.Main) {
+                            binding.spinner.visibility = View.GONE
+                        }
+
+                    }
+                } else {
+
+                    //TODO procesar los datos de los creadores desde la base de datos
+                    //db.creadorDAO().getAll()
+
+                }
+            }
+        }
     }
 
     private suspend fun fetchShowsComics() {
@@ -152,6 +184,23 @@ class ColeccionFragment : Fragment() {
 
                 for (aux in getNetworkService().getPersonajes(i).data?.results ?: listOf()) {
                     db.personajeDAO().insertarPersonaje(aux.toPersonaje())
+                }
+            }
+
+        } catch (cause: Throwable) {
+            throw APIError("Unable to fetch data from API", cause)
+        }
+    }
+
+
+    private suspend fun fetchShowsCreators() {
+
+        try {
+
+            for (i in 0..200 step 20) {
+
+                for (aux in getNetworkService().getCreadores(i).data?.results ?: listOf()) {
+                    db.creadorDAO().insertarCreador(aux.toCreador())
                 }
             }
 

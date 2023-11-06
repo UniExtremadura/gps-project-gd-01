@@ -1,8 +1,16 @@
 package es.unex.giiis.marvelbook.data.api
 
-
 import es.unex.giiis.marvelbook.database.Comic
 import es.unex.giiis.marvelbook.database.Personaje
+
+import es.unex.giiis.marvelbook.database.Creador
+
+fun CreadorMarvel.toCreador() = Creador(
+    id = id ?: 0,
+    name = fullName ?: "",
+    imagen = thumbnail?.path + "." + thumbnail?.extension,
+    comics = comics?.items?.mapNotNull { it.resourceURI?.substringAfterLast("/") } ?: emptyList()
+)
 
 fun ComicMarvel.toComic() = Comic(
     id = id ?: 0,
@@ -23,5 +31,6 @@ fun PersonajeMarvel.toPersonaje() = Personaje(
     description = description ?: "",
     imagen = thumbnail?.path + "." + thumbnail?.extension,
     comics = comics?.items?.mapNotNull { it.resourceURI?.substringAfterLast("/") } ?: emptyList()
+
 
 )

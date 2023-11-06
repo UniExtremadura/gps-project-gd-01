@@ -1,10 +1,7 @@
 package es.unex.giiis.marvelbook.ui.tienda
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -18,8 +15,6 @@ class TiendaFragment : Fragment() {
 
     private var _binding: FragmentTiendaBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -45,4 +40,7 @@ class TiendaFragment : Fragment() {
     }
 
 
+
+
 }
+

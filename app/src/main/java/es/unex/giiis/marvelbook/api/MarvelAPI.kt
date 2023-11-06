@@ -1,8 +1,9 @@
 package es.unex.giiis.marvelbook.api
 
-import es.unex.giiis.marvelbook.data.api.ComicCabecera
+import es.unex.giiis.marvelbook.data.api.CreadorCabecera
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import es.unex.giiis.marvelbook.data.api.ComicCabecera
 import es.unex.giiis.marvelbook.data.api.PersonajeCabecera
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -39,6 +40,10 @@ interface MarvelAPI {
         @Query("offset") offset: Int
     ): PersonajeCabecera
 
+    @GET("creators?ts=1&apikey=320e1b5bed8c8bdb3aa5366857f05023&hash=6bcb692a16cd638fd8dad21766b4fac7")
+    suspend fun getCreadores(
+        @Query("offset") offset: Int
+    ): CreadorCabecera
 
 }
 
