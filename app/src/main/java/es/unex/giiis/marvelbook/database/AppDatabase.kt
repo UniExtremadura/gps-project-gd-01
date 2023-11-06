@@ -8,11 +8,15 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 
-@Database(entities = [Creador::class], version = 1)
+@Database(entities = [Personaje::class,Usuario::class,Comic::class,Creador::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
+    abstract fun personajeDAO(): PersonajeDAO
+    abstract fun usuarioDAO(): usuarioDAO
+    abstract fun comicDAO(): ComicDAO
     abstract fun creadorDAO(): CreadorDAO
+
 
     companion object {
         @Volatile
