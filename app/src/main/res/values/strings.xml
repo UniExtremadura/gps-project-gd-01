@@ -27,4 +27,9 @@
     <string name="botonRegistro">¡REGISTRATE!</string>
     <string name="IntroducirNombre">Introduce tu nombre de usuario</string>
     <string name="DescripcionLogoRegistroMarvel">Logo de registro marvel</string>
+    <string name="tituloLogin">¡BIENVENIDO DE NUEVO!</string>
+    <string name="descripcionFotoLogin">foto de Marvel</string>
+    <string name="Recuerdame">Recuérdame</string>
+    <string name="CrearCuentaLogin">¿No tienes cuenta? ¡Regístrate!</string>
+    <string name="botonLogin">Iniciar sesión</string>
 </resources>

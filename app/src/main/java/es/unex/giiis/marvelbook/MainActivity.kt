@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private var usuarioSesionID: Int = 0
 
     private val client = OkHttpClient()
 
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        usuarioSesionID = intent.getIntExtra("usuarioID", 0);
 
         //TODO: Hacer que la activity reciba el objeto usuario tras registrarse/iniciar sesión
         setUpUI()
