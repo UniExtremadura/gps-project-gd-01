@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+
+    <TextView
+        android:id="@+id/tituloRegistro1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="107dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="107dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/alata"
+        android:text="@string/textoBienvenidaRegistro2"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tituloRegistro2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tituloRegistro2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/alata"
+        android:text="@string/textoBienvenidaRegistro"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/fotoRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloRegistro1" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fotoRegistro"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="72dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloRegistro2">
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/DescripcionLogoRegistroMarvel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nombreRegistro"
+            app:srcCompat="@drawable/logomarvel" />
+    </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/nombreRegistro"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:backgroundTint="@color/black"
+        android:hint="@string/IntroducirNombre"
+        android:inputType="text"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/emailRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fotoRegistro"
+        tools:ignore="Autofill"/>
+
+    <EditText
+        android:id="@+id/emailRegistro"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:hint="@string/IntroducirEmail"
+        android:inputType="textEmailAddress"
+        android:backgroundTint="@color/black"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/passwordRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombreRegistro"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/passwordRegistro"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:backgroundTint="@color/black"
+        android:hint="@string/IntroducirPassword"
+        android:inputType="textPassword"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/passwordRegistro2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailRegistro"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/passwordRegistro2"
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:backgroundTint="@color/black"
+        android:hint="@string/IntroducirPasswordRepetida"
+        android:inputType="textPassword"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/botonRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegistro"
+        tools:ignore="Autofill" />
+
+
+
+    <Button
+        android:id="@+id/botonRegistro"
+        android:layout_width="164dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="137dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/boton_registro"
+        android:text="@string/botonRegistro"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegistro2"
+        tools:ignore="TextSizeCheck" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
