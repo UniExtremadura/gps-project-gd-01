@@ -32,4 +32,7 @@
     <string name="Recuerdame">Recuérdame</string>
     <string name="CrearCuentaLogin">¿No tienes cuenta? ¡Regístrate!</string>
     <string name="botonLogin">Iniciar sesión</string>
+
+    <string name="cerrarSesion">Cerrar sesión</string>
+    <string name="configuracion">Configuración</string>
 </resources>
