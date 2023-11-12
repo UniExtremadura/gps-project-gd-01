@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_coleccion">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="es.unex.giiis.marvelbook.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_coleccion"
+        android:name="es.unex.giiis.marvelbook.ui.coleccion.ColeccionFragment"
+        android:label="@string/coleccion"
+        tools:layout="@layout/fragment_coleccion" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="es.unex.giiis.marvelbook.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_mazo"
+        android:name="es.unex.giiis.marvelbook.ui.mazo.MazoFragment"
+        android:label="@string/mazo"
+        tools:layout="@layout/fragment_mazo" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="es.unex.giiis.marvelbook.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_tienda"
+        android:name="es.unex.giiis.marvelbook.ui.tienda.TiendaFragment"
+        android:label="@string/tienda"
+        tools:layout="@layout/fragment_tienda" />
 </navigation>
