@@ -2,19 +2,16 @@ package es.unex.giiis.marvelbook
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.ActivityMainBinding
-import okhttp3.OkHttpClient
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,10 +19,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private var usuarioSesionID: Int = 0
-
-    private val client = OkHttpClient()
-
-    private lateinit var db: AppDatabase
 
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.coleccion.ColeccionFragment">
+    tools:context=".ui.coleccion.tab.ComicFragment">
 
     <ProgressBar
         android:id="@+id/spinner"
@@ -16,29 +16,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey"
-        android:contentDescription="@string/Personajes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabIconTint="@color/black"
-        app:tabIndicatorColor="@color/rojoPrincipal"
-        app:tabSelectedTextColor="@color/rojoPrincipal"
-        app:tabTextColor="@color/black" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_creador_list"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_coleccion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

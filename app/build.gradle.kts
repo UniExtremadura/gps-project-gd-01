@@ -43,7 +43,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+
 }
+
+
 
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
@@ -64,6 +68,14 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
 
+    implementation ("com.google.android.material:material:1.4.0")
+    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -73,4 +85,7 @@ dependencies {
 
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version") // Usamos kapt en lugar de annotationProcessor
+
+
+
 }

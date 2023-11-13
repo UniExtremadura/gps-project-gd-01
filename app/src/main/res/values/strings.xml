@@ -32,4 +32,9 @@
     <string name="Recuerdame">Recuérdame</string>
     <string name="CrearCuentaLogin">¿No tienes cuenta? ¡Regístrate!</string>
     <string name="botonLogin">Iniciar sesión</string>
+    <string name="Personajes">Personajes</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="creadores">Creadores</string>
+    <string name="comics">Comics</string>
 </resources>

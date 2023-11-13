@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MarvelBook"
-        tools:targetApi="33">
+        tools:targetApi="33"
+        android:usesCleartextTraffic="true"
+        >
 
         <activity
             android:name=".LoginActivity"
@@ -35,7 +37,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
 
         <meta-data
             android:name="preloaded_fonts"
