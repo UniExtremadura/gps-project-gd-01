@@ -1,6 +1,7 @@
 package es.unex.giiis.marvelbook
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
@@ -43,14 +44,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun setUpUI() {
+    private fun setUpUI() {
         binding.navView.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_coleccion,
                 R.id.navigation_mazo,
-                R.id.navigation_tienda,
+                R.id.navigation_tienda
             )
         )
 
@@ -103,6 +104,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_cuenta -> {
                     val action = CuentaFragmentDirections.actionGlobalCuentaFragment(usuarioSesionID)
                     navController.navigate(action)
+                    true
+                }
+                R.id.menu_cerrarsesion -> {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false
