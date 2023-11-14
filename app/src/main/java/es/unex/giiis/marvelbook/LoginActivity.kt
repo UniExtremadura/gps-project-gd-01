@@ -6,6 +6,7 @@ import android.os.Bundle
 
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.ActivityLoginBinding
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
                             Toast.makeText(applicationContext, mensaje, Toast.LENGTH_SHORT).show()
 
                             val intent = Intent(context, MainActivity::class.java);
-                            var usuarioID = usuarioAUX.id
+                            val usuarioID = usuarioAUX.id
                             intent.putExtra("usuarioID", usuarioID)
                             startActivity(intent)
                         }
@@ -73,7 +74,19 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+        readSettings()
     }
 
+    private fun readSettings() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val rememberme = preferences.getBoolean("rememberme", false)
+        val email = preferences.getString("email", "")
+        val password = preferences.getString("password", "")
+
+        if (rememberme) {
+            binding.emailLogin.setText(email)
+            binding.passwordLogin.setText(password)
+        }
+    }
 
 }

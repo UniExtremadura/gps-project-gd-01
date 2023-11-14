@@ -8,5 +8,8 @@
     <item
         android:id="@+id/menu_cerrarsesion"
         android:title="@string/cerrarSesion" />
+    <item
+        android:id="@+id/menu_cuenta"
+        android:title="@string/cuenta" />
 
 </menu>

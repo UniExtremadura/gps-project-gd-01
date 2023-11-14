@@ -29,10 +29,20 @@
     <string name="DescripcionLogoRegistroMarvel">Logo de registro marvel</string>
     <string name="tituloLogin">¡BIENVENIDO DE NUEVO!</string>
     <string name="descripcionFotoLogin">foto de Marvel</string>
-    <string name="Recuerdame">Recuérdame</string>
+    <string name="Recuerdame">Recordar datos de inicio de sesión</string>
     <string name="CrearCuentaLogin">¿No tienes cuenta? ¡Regístrate!</string>
     <string name="botonLogin">Iniciar sesión</string>
-
-    <string name="cerrarSesion">Cerrar sesión</string>
-    <string name="configuracion">Configuración</string>
+    <string name="imagen_UsuarioM">imagen</string>
+    <string name="nombre_UsuarioM">Nombre_Usuario</string>
+    <string name="Modificar_UsuarioM">MODIFICAR USUARIO</string>
+    <string name="email_UsuarioM">Correo electrónico</string>
+    <string name="nombre_UsuarioM_C">Nombre de usuario</string>
+    <string name="password_UsuarioM">Contraseña</string>
+    <string name="repPassword_UsuarioM">Repita su contraseña</string>
+    <string name="modificar_datos_de_la_cuenta">Modificar datos de la cuenta</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="configuracion">Configuración\n</string>
+    <string name="cerrarSesion">Cerrar sesión\n</string>
+    <string name="cuenta">Cuenta</string>
+    <string name="configuracionTitulo">Ajustes de inicio de sesión</string>
 </resources>

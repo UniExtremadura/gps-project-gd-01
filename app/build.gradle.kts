@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android") // Agregado para habilitar el plugin de Kotlin
     id("kotlin-kapt")   // Agregado para habilitar Kotlin Annotation Processing
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -45,6 +46,16 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        val nav_version = "2.5.3"
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+    }
+}
+
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -63,6 +74,9 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
+
+    implementation("androidx.preference:preference-ktx:1.2.0")
+
 
 
     testImplementation("junit:junit:4.13.2")
