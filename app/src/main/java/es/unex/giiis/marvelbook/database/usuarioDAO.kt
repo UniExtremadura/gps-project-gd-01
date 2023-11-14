@@ -3,6 +3,7 @@ package es.unex.giiis.marvelbook.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface usuarioDAO {
@@ -16,7 +17,14 @@ interface usuarioDAO {
     @Insert
     fun insertarUsuario(vararg usuario: Usuario)
 
+    @Update
+    fun updateUsuario(vararg usuario: Usuario)
+
     @Query("DELETE FROM Usuario")
     fun eliminarUsuarios()
+
+    @Query("SELECT * FROM Usuario WHERE id = :usuarioID")
+    fun getUserById(usuarioID: Long): Usuario?
+
 
 }

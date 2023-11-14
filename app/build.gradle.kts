@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android") // Agregado para habilitar el plugin de Kotlin
     id("kotlin-kapt")   // Agregado para habilitar Kotlin Annotation Processing
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -43,11 +44,17 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-
 }
 
-
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        val nav_version = "2.5.3"
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+    }
+}
 
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
@@ -68,6 +75,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
 
+    implementation("androidx.preference:preference-ktx:1.2.0")
+
+
     implementation ("com.google.android.material:material:1.4.0")
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
 
@@ -85,7 +95,4 @@ dependencies {
 
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version") // Usamos kapt en lugar de annotationProcessor
-
-
-
 }

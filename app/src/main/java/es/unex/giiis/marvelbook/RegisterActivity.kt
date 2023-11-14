@@ -50,12 +50,14 @@ class RegisterActivity : AppCompatActivity() {
                             mazoID = 0
                         )
                         db.usuarioDAO().insertarUsuario(usuario)
+                        val userID = db.usuarioDAO().findByEmail(usuario.email)?.id
 
                         // Cambiar al hilo principal para mostrar el Toast y navegar a otra actividad
                         withContext(Dispatchers.Main) {
                             val context = this@RegisterActivity
                             Toast.makeText(applicationContext, "Se ha registrado correctamente", Toast.LENGTH_LONG).show()
-                            val intent =  Intent(context, MainActivity::class.java);
+                            val intent =  Intent(context, MainActivity::class.java)
+                            intent.putExtra("usuarioID", userID)
                             startActivity(intent)
                         }
                     }
