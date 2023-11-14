@@ -26,6 +26,12 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         db = AppDatabase.getInstance(applicationContext)
+//
+//        val intent = Intent(this, MainActivity::class.java)
+//            intent.putExtra("usuarioID", 1L)
+//            startActivity(intent)
+        //TODO arreglar login
+
 
         binding.crearCuenta.setOnClickListener{
             val intent =  Intent(this, RegisterActivity::class.java);

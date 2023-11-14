@@ -2,14 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_cuenta"
+        android:title="@string/cuenta" />
+    <item
         android:id="@+id/menu_configuracion"
         android:title="@string/configuracion" />
-
     <item
         android:id="@+id/menu_cerrarsesion"
         android:title="@string/cerrarSesion" />
-    <item
-        android:id="@+id/menu_cuenta"
-        android:title="@string/cuenta" />
 
 </menu>

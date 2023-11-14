@@ -45,4 +45,7 @@
     <string name="cerrarSesion">Cerrar sesión\n</string>
     <string name="cuenta">Cuenta</string>
     <string name="configuracionTitulo">Ajustes de inicio de sesión</string>
+    <string name="Personajes">Personajes</string>
+    <string name="creadores">Creadores</string>
+    <string name="comics">Comics</string>
 </resources>
