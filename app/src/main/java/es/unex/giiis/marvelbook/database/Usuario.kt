@@ -10,6 +10,5 @@ data class Usuario(
     @ColumnInfo(name = "nombre") val nombre: String?,
     @ColumnInfo(name = "email") val email: String?,
     @ColumnInfo(name = "password") val password: String?,
-    @ColumnInfo(name = "monedas") val monedas: Int?,
-    @ColumnInfo(name = "mazoID") val mazoID: Int?,
+    @ColumnInfo(name = "monedas") var monedas: Int?,
 )

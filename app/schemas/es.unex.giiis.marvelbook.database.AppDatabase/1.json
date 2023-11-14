@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b9de105cf84db9619b2808e28b9f647d",
+    "identityHash": "99df8c8006ca9f940e6798f491b2f474",
     "entities": [
       {
         "tableName": "Personaje",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Usuario",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT, `email` TEXT, `password` TEXT, `monedas` INTEGER, `mazoID` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT, `email` TEXT, `password` TEXT, `monedas` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -79,12 +79,6 @@
           {
             "fieldPath": "monedas",
             "columnName": "monedas",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "mazoID",
-            "columnName": "mazoID",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -203,12 +197,80 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "PersonajeMazo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `usuarioID` INTEGER, `name` TEXT, `imagen` TEXT, `speed` INTEGER, `defense` INTEGER, `power` INTEGER, `rating` INTEGER, `fav` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioID",
+            "columnName": "usuarioID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imagen",
+            "columnName": "imagen",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "speed",
+            "columnName": "speed",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defense",
+            "columnName": "defense",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "power",
+            "columnName": "power",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rating",
+            "columnName": "rating",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fav",
+            "columnName": "fav",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b9de105cf84db9619b2808e28b9f647d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '99df8c8006ca9f940e6798f491b2f474')"
     ]
   }
 }

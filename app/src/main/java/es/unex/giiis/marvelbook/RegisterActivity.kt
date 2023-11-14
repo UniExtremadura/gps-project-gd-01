@@ -47,7 +47,6 @@ class RegisterActivity : AppCompatActivity() {
                             email = binding.emailRegistro.text.toString(),
                             password = binding.passwordRegistro.text.toString(),
                             monedas = 100,
-                            mazoID = 0
                         )
                         db.usuarioDAO().insertarUsuario(usuario)
                         val userID = db.usuarioDAO().findByEmail(usuario.email)?.id
@@ -105,7 +104,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.emailRegistro.error = "Introduzca un email de usuario válido"
             return false
         }
-        return true;
+        return true
     }
 
 

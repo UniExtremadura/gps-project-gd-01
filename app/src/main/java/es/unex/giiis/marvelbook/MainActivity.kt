@@ -19,7 +19,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import es.unex.giiis.marvelbook.databinding.ActivityMainBinding
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -36,10 +35,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         usuarioSesionID = intent.getLongExtra("usuarioID", 0L)
 
         //TODO: Controlar comportamiento del usuario de la sesión
         setUpUI()
+
+
     }
 
 
@@ -55,7 +58,10 @@ class MainActivity : AppCompatActivity() {
         )
 
         setSupportActionBar(binding.toolbar)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

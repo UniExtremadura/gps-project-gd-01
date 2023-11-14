@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_items_sobre_rv"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_item_sobre" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_item_sobre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/fotoPersonajeSobre"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/imagen_personaje"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logomarvel" />
+
+        <TextView
+            android:id="@+id/namePersonajeMazo"
+            android:layout_width="240dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:maxLines="2"
+            android:text="@string/Nombre_Personaje_Sobre"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/fotoPersonajeSobre"
+            app:layout_constraintTop_toTopOf="@+id/fotoPersonajeSobre"
+            tools:ignore="TextSizeCheck" />
+
+        <ImageView
+            android:id="@+id/imagePowerPersonajeMazo"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="21dp"
+            android:contentDescription="@string/imagen_ataque_sobre"
+            app:layout_constraintBottom_toBottomOf="@+id/fotoPersonajeSobre"
+            app:layout_constraintStart_toEndOf="@+id/defendPersonajeMazo"
+            app:srcCompat="@drawable/ataque" />
+
+        <ImageView
+            android:id="@+id/imageDefendPersonajeMazo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="24dp"
+            android:contentDescription="@string/imagen_defensa_sobre"
+            app:layout_constraintBottom_toBottomOf="@+id/fotoPersonajeSobre"
+            app:layout_constraintStart_toEndOf="@+id/fotoPersonajeSobre"
+            app:srcCompat="@drawable/defensa" />
+
+        <ImageView
+            android:id="@+id/imageSpeedPersonajeMazo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="24dp"
+            android:contentDescription="@string/imagen_velocidad_sobre"
+            app:layout_constraintBottom_toBottomOf="@+id/fotoPersonajeSobre"
+            app:layout_constraintStart_toEndOf="@+id/powerPersonajeMazo"
+            app:srcCompat="@drawable/velocidad" />
+
+        <TextView
+            android:id="@+id/defendPersonajeMazo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/valor_defensa_sobre"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imageDefendPersonajeMazo"
+            app:layout_constraintTop_toTopOf="@+id/imageDefendPersonajeMazo" />
+
+        <TextView
+            android:id="@+id/powerPersonajeMazo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/valor_ataque_sobre"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imagePowerPersonajeMazo"
+            app:layout_constraintTop_toTopOf="@+id/imagePowerPersonajeMazo" />
+
+        <TextView
+            android:id="@+id/speedPersonajeMazo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/valor_vel_sobre"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imageSpeedPersonajeMazo"
+            app:layout_constraintTop_toTopOf="@+id/imageSpeedPersonajeMazo" />
+
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fotoPersonajeSobre" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

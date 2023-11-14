@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_coleccion">
 
+
     <fragment
         android:id="@+id/navigation_coleccion"
         android:name="es.unex.giiis.marvelbook.ui.coleccion.ColeccionFragment"
@@ -22,4 +23,5 @@
         android:name="es.unex.giiis.marvelbook.ui.tienda.TiendaFragment"
         android:label="@string/tienda"
         tools:layout="@layout/fragment_tienda" />
+
 </navigation>

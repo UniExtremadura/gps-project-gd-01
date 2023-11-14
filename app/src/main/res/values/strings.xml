@@ -33,6 +33,31 @@
     <string name="CrearCuentaLogin">¿No tienes cuenta? ¡Regístrate!</string>
     <string name="botonLogin">Iniciar sesión</string>
 
+
     <string name="cerrarSesion">Cerrar sesión</string>
     <string name="configuracion">Configuración</string>
+    <string name="Descripcion_Sobre2">Abre y consigue...\n¡3 SUPERHÉROES!</string>
+    <string name="Descripción_Sobre1">Abre y consigue...\n¡1 SUPERHÉROES!</string>
+    <string name="Moneda_Sobre1">10</string>
+    <string name="Moneda_Sobre2">20</string>
+    <string name="Moneda_Usuario">100</string>
+    <string name="Moneda_Usuario_Valor">100</string>
+    <string name="Moneda_Sobre2_Imagen">20</string>
+    <string name="Moneda_Sobre1_Imagen">10</string>
+    <string name="Sobre1_Imagen">10</string>
+    <string name="Sobre2_Imagen">2</string>
+    <string name="Texto_Sobres">SOBRES DISPONIBLES</string>
+    <string name="Nombre_Personaje_Sobre">Spider-man</string>
+    <string name="valor_ataque_sobre">105</string>
+    <string name="valor_defensa_sobre">56</string>
+    <string name="valor_vel_sobre">187</string>
+    <string name="imagen_ataque_sobre">2</string>
+    <string name="imagen_defensa_sobre">1</string>
+    <string name="imagen_velocidad_sobre">3</string>
+    <string name="imagen_personaje">0</string>
+    <string name="Titulo_SobreAbierto">TE HA TOCADO...</string>
+    <string name="boton_guardar_mazo">¡CONTINUAR...!</string>
+    <string name="favSwitch">FAV</string>
+    <string name="tumazo">TU MAZO</string>
+    <string name="logofav">logofav</string>
 </resources>

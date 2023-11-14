@@ -6,16 +6,25 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.R
+import es.unex.giiis.marvelbook.adapter.PersonajeMazoAdapterMazo
+import es.unex.giiis.marvelbook.database.AppDatabase
+import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.databinding.FragmentMazoBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MazoFragment : Fragment() {
 
     private var _binding: FragmentMazoBinding? = null
-
+    private var usuarioSesionID: Long = 0
+    private lateinit var user: Usuario
+    private lateinit var adapter: PersonajeMazoAdapterMazo
+    private lateinit var db: AppDatabase
 
     private val binding get() = _binding!!
 
@@ -24,19 +33,36 @@ class MazoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val mazoViewModel =
-            ViewModelProvider(this).get(MazoViewModel::class.java)
+        db = AppDatabase.getInstance(requireContext())
+        usuarioSesionID = activity?.intent?.getLongExtra("usuarioID", 0L)!!
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            user = db.usuarioDAO().getUserById(usuarioSesionID)!!
+        }
 
         _binding = FragmentMazoBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val textView: TextView = binding.textDashboard
-        mazoViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         setHasOptionsMenu(true)
+        setUpRecyclerView()
         return root
     }
 
+    private fun setUpRecyclerView() {
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            val personajesMazo = db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
+
+            withContext(Dispatchers.Main) {
+                adapter = PersonajeMazoAdapterMazo(personajes = personajesMazo)
+                with(binding) {
+                    listaMazo.layoutManager = LinearLayoutManager(requireContext())
+                    listaMazo.adapter = adapter
+                }
+            }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_search, menu)
         super.onCreateOptionsMenu(menu, inflater)
