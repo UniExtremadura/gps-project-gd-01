@@ -7,7 +7,6 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuPopupHelper
@@ -19,11 +18,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import es.unex.giiis.marvelbook.databinding.ActivityMainBinding
 
+import es.unex.giiis.marvelbook.ui.configuracion.ConfiguracionFragmentDirections
+import es.unex.giiis.marvelbook.ui.cuenta.CuentaFragmentDirections
+
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
-    private var usuarioSesionID: Long = 0
+    internal lateinit var binding: ActivityMainBinding
+    private var usuarioSesionID: Long = 0L
 
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as
@@ -35,14 +38,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        usuarioSesionID = intent.getLongExtra("usuarioID", 0L);
 
-
-        usuarioSesionID = intent.getLongExtra("usuarioID", 0L)
-
-        //TODO: Controlar comportamiento del usuario de la sesión
+        //TODO: Hacer que la activity reciba el objeto usuario tras registrarse/iniciar sesión
         setUpUI()
-
-
     }
 
 
@@ -59,9 +58,15 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.ajustesFragment || destination.id == R.id.cuentaFragment) {
+                binding.navView.visibility = View.GONE
+            }
+            else{
+                binding.navView.visibility = View.VISIBLE
+            }
+        }
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,7 +98,13 @@ class MainActivity : AppCompatActivity() {
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_configuracion -> {
-                    Toast.makeText(this, "Configuración", Toast.LENGTH_SHORT).show()
+                    val action = ConfiguracionFragmentDirections.actionGlobalAjustesFragment(usuarioSesionID)
+                    navController.navigate(action)
+                    true
+                }
+                R.id.menu_cuenta -> {
+                    val action = CuentaFragmentDirections.actionGlobalCuentaFragment(usuarioSesionID)
+                    navController.navigate(action)
                     true
                 }
                 R.id.menu_cerrarsesion -> {
@@ -108,5 +119,4 @@ class MainActivity : AppCompatActivity() {
         menuHelper.gravity = Gravity.END
         menuHelper.show()
     }
-
 }
