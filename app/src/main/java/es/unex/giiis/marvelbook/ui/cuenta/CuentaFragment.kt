@@ -63,7 +63,6 @@ class CuentaFragment : Fragment() {
                                 email = binding.emailSettings.text.toString(),
                                 password = binding.passwordSettings.text.toString(),
                                 monedas = user.monedas,
-                                mazoID = user.mazoID
                             )
 
                             lifecycleScope.launch(Dispatchers.IO) {
@@ -75,7 +74,7 @@ class CuentaFragment : Fragment() {
                                 "Se ha modificado el usuario correctamente",
                                 Toast.LENGTH_LONG
                             ).show()
-                            val intent = Intent(requireContext(), MainActivity::class.java);
+                            val intent = Intent(requireContext(), MainActivity::class.java)
                             intent.putExtra("usuarioID", usuarioSesionID)
                             startActivity(intent)
 
@@ -124,7 +123,7 @@ class CuentaFragment : Fragment() {
             binding.emailSettings.error = "Introduzca un email de usuario válido"
             return false
         }
-        return true;
+        return true
     }
 
 
