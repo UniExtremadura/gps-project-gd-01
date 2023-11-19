@@ -10,11 +10,26 @@ import es.unex.giiis.marvelbook.databinding.ItemMazoBinding
 
 class PersonajeMazoAdapterMazo(
     private var personajes: List<PersonajeMazo>,
+    private val onFavClickListener: (position: Int) -> Unit
 ) : RecyclerView.Adapter<PersonajeMazoAdapterMazo.ShowViewHolder>() {
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(newList: List<PersonajeMazo>) {
+        personajes = newList
+        notifyDataSetChanged()
+    }
 
     class ShowViewHolder(
         private val binding: ItemMazoBinding,
+        private val onFavClickListener: (position: Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.logofav.setOnClickListener {
+                onFavClickListener(adapterPosition)
+            }
+        }
+
         fun bind(personajeMazo: PersonajeMazo) {
             with(binding) {
                 namePersonajeMazo.text = personajeMazo.name
@@ -35,22 +50,13 @@ class PersonajeMazoAdapterMazo(
             }
         }
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateList(newList: List<PersonajeMazo>) {
-        personajes = newList
-        notifyDataSetChanged()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
+        val binding = ItemMazoBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
+        )
+        return ShowViewHolder(binding, onFavClickListener)
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType:
-    Int): ShowViewHolder {
-        val binding =
-            ItemMazoBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent, false)
-        return ShowViewHolder(binding)
-    }
-
     override fun getItemCount() = personajes.size
     override fun onBindViewHolder(holder: ShowViewHolder, position:
     Int) {

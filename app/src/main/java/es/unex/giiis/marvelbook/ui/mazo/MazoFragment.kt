@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@Suppress("DEPRECATION")
 class MazoFragment : Fragment() {
 
     private var _binding: FragmentMazoBinding? = null
@@ -52,11 +53,27 @@ class MazoFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         lifecycleScope.launch(Dispatchers.IO) {
-
-            val personajesMazo = db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
+            var personajesMazo = db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
 
             withContext(Dispatchers.Main) {
-                adapter = PersonajeMazoAdapterMazo(personajes = personajesMazo)
+                adapter = PersonajeMazoAdapterMazo(
+                    personajes = personajesMazo,
+                    onFavClickListener = { position ->
+                        val personaje = personajesMazo[position]
+                        if (personaje.fav == false) {
+                            personaje.fav = true
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                db.personajeMazoDAO().updatePersonajeMazo(personaje)
+                                personajesMazo = db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
+
+                                withContext(Dispatchers.Main) {
+                                    adapter.updateList(personajesMazo)
+                                    adapter.notifyItemChanged(position)
+                                }
+                            }
+                        }
+                    }
+                )
                 with(binding) {
                     listaMazo.layoutManager = LinearLayoutManager(requireContext())
                     listaMazo.adapter = adapter
@@ -64,6 +81,7 @@ class MazoFragment : Fragment() {
             }
         }
     }
+
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
