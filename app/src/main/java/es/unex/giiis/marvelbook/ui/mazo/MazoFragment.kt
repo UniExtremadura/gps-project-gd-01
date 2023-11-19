@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +27,7 @@ class MazoFragment : Fragment() {
     private lateinit var user: Usuario
     private lateinit var adapter: PersonajeMazoAdapterMazo
     private lateinit var db: AppDatabase
+    private var searchMenuItem: MenuItem? = null
 
     private val binding get() = _binding!!
 
@@ -65,9 +68,44 @@ class MazoFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_search, menu)
+        searchMenuItem = menu.findItem(R.id.action_search)
+        val searchView = searchMenuItem?.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                onSearch(newText.orEmpty())
+                return false
+            }
+        })
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    fun onSearch(query: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            val originalList = db.personajeMazoDAO().getAll(usuarioSesionID)
+
+            withContext(Dispatchers.Main) {
+                val filteredList = originalList.filter { personajeMazo ->
+                    personajeMazo.name?.contains(query, ignoreCase = true) ?: true
+                }
+                (binding.listaMazo.adapter as? PersonajeMazoAdapterMazo)?.updateList(filteredList)
+            }
+        }
+    }
+
+    override fun onDestroyOptionsMenu() {
+        searchMenuItem?.let {
+            val searchView = it.actionView as SearchView
+            searchView.setQuery("", false)
+            searchView.isIconified = true
+        }
+        super.onDestroyOptionsMenu()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,4 +1,5 @@
 package es.unex.giiis.marvelbook.adapter
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,7 @@ import es.unex.giiis.marvelbook.database.PersonajeMazo
 import es.unex.giiis.marvelbook.databinding.ItemMazoBinding
 
 class PersonajeMazoAdapterMazo(
-    private val personajes: List<PersonajeMazo>,
+    private var personajes: List<PersonajeMazo>,
 ) : RecyclerView.Adapter<PersonajeMazoAdapterMazo.ShowViewHolder>() {
 
     class ShowViewHolder(
@@ -34,6 +35,13 @@ class PersonajeMazoAdapterMazo(
             }
         }
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(newList: List<PersonajeMazo>) {
+        personajes = newList
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType:
     Int): ShowViewHolder {
         val binding =
@@ -42,6 +50,7 @@ class PersonajeMazoAdapterMazo(
                 parent, false)
         return ShowViewHolder(binding)
     }
+
     override fun getItemCount() = personajes.size
     override fun onBindViewHolder(holder: ShowViewHolder, position:
     Int) {

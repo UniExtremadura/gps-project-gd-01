@@ -1,5 +1,6 @@
-package es.unex.giiis.marvelbook.ui.coleccion.tab.adapter
+package es.unex.giiis.marvelbook.ui.coleccion.tab.adapterTabs
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import es.unex.giiis.marvelbook.databinding.ItemColeccionBinding
 
 class ComicAdapter (
 
-    private val comics: List<Comic>,
+    private var comics: List<Comic>,
     private val onClick: (comics: Comic) -> Unit,
 ) : RecyclerView.Adapter<ComicAdapter.ShowViewHolder>() {
 
@@ -17,7 +18,7 @@ class ComicAdapter (
         private val binding: ItemColeccionBinding,
         private val onClick: (comic: Comic) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(comic: Comic, totalItems: Int) {
+        fun bind(comic: Comic) {
             with(binding) {
                 nombrePersonajeLista.text = comic.title
 
@@ -31,6 +32,13 @@ class ComicAdapter (
             }
         }
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(newList: List<Comic>) {
+        comics = newList
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType:
     Int): ShowViewHolder {
         val binding =
@@ -43,6 +51,6 @@ class ComicAdapter (
     override fun getItemCount() = comics.size
     override fun onBindViewHolder(holder: ShowViewHolder, position:
     Int) {
-        holder.bind(comics[position], comics.size)
+        holder.bind(comics[position])
     }
 }

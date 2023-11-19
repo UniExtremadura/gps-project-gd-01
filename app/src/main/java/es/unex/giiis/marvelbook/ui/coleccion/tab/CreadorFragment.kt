@@ -14,7 +14,7 @@ import es.unex.giiis.marvelbook.api.getNetworkService
 import es.unex.giiis.marvelbook.data.api.toCreador
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentCreadorBinding
-import es.unex.giiis.marvelbook.ui.coleccion.tab.adapter.CreadorAdapter
+import es.unex.giiis.marvelbook.ui.coleccion.tab.adapterTabs.CreadorAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -88,29 +88,33 @@ class CreadorFragment : Fragment() {
                     rvCreadorList.layoutManager = LinearLayoutManager(context)
                     rvCreadorList.adapter = adapter
                 }
-
             }
         }
-
-
-
     }
 
     private suspend fun fetchShowsCreators() {
-
         try {
-
             for (i in 0..200 step 20) {
-
                 for (aux in getNetworkService().getCreadores(i).data?.results ?: listOf()) {
                     db.creadorDAO().insertarCreador(aux.toCreador())
                 }
             }
-
         } catch (cause: Throwable) {
             throw APIError("Unable to fetch data from API", cause)
         }
     }
 
+    fun performSearch(query: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
 
+            val originalList = db.creadorDAO().getAll()
+
+            withContext(Dispatchers.Main) {
+                val filteredList = originalList.filter { creador ->
+                    creador.name?.contains(query, ignoreCase = true) ?: true
+                }
+                (binding.rvCreadorList.adapter as? CreadorAdapter)?.updateList(filteredList)
+            }
+        }
+    }
 }
