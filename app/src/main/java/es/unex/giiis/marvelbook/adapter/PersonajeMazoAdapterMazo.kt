@@ -1,5 +1,4 @@
 package es.unex.giiis.marvelbook.adapter
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,6 @@ class PersonajeMazoAdapterMazo(
     private val onFavClickListener: (position: Int) -> Unit
 ) : RecyclerView.Adapter<PersonajeMazoAdapterMazo.ShowViewHolder>() {
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList: List<PersonajeMazo>) {
         personajes = newList
         notifyDataSetChanged()
