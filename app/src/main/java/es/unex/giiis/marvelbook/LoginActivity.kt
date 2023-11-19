@@ -1,6 +1,8 @@
 package es.unex.giiis.marvelbook
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -13,11 +15,13 @@ import es.unex.giiis.marvelbook.databinding.ActivityLoginBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var db: AppDatabase
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
             val intent =  Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+        sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
         binding.botonInicio.setOnClickListener{
 
@@ -57,10 +62,9 @@ class LoginActivity : AppCompatActivity() {
 
                             val intent = Intent(context, MainActivity::class.java)
                             val usuarioID = usuarioAUX.id
-                            //todo: descomentar llamada al metodo sumarMonedas
-//                            if (usuarioLog != null) {
-//                                sumarMonedas(usuarioLog)
-//                            }
+                            if (usuarioLog != null) {
+                                sumarMonedas(usuarioLog)
+                            }
                             intent.putExtra("usuarioID", usuarioID)
                             startActivity(intent)
                         }
@@ -84,19 +88,33 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun sumarMonedas(usuario: Usuario) {
+        val editor = sharedPreferences.edit()
 
-        //todo: implemntar logica de tiempo
-        val currentCoins = usuario.monedas
-        val newCoins = currentCoins?.plus(100)
-        if (newCoins != null) {
-            usuario.monedas = newCoins
-            Toast.makeText(this, "Has ganado 100 monedas", Toast.LENGTH_SHORT).show()
-            lifecycleScope.launch(Dispatchers.IO) {
-                db.usuarioDAO().updateUsuario(usuario)
+        val lastLoginDate = sharedPreferences.getLong("LastLoginDate", 0)
+        val currentDate = System.currentTimeMillis()
+
+        if (!isSameHour(lastLoginDate, currentDate)) {
+            val currentCoins = usuario.monedas
+            val newCoins = currentCoins?.plus(100)
+            if (newCoins != null) {
+                usuario.monedas = newCoins
+                Toast.makeText(this, "Has ganado 100 monedas", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    db.usuarioDAO().updateUsuario(usuario)
+                }
             }
+
+            editor.putLong("LastLoginDate", currentDate)
+
+            editor.apply()
         }
     }
 
+    private fun isSameHour(timestamp1: Long, timestamp2: Long): Boolean {
+        val cal1 = Calendar.getInstance().apply { timeInMillis = timestamp1 }
+        val cal2 = Calendar.getInstance().apply { timeInMillis = timestamp2 }
+        return cal1.get(Calendar.HOUR) == cal2.get(Calendar.HOUR)
+    }
 
     private fun readSettings() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
