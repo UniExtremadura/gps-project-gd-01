@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import es.unex.giiis.marvelbook.database.AppDatabase
+import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.databinding.ActivityLoginBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var db: AppDatabase
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -26,15 +28,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         db = AppDatabase.getInstance(applicationContext)
-//
-//        val intent = Intent(this, MainActivity::class.java)
-//            intent.putExtra("usuarioID", 1L)
-//            startActivity(intent)
-        //TODO arreglar login
-
 
         binding.crearCuenta.setOnClickListener{
-            val intent =  Intent(this, RegisterActivity::class.java);
+            val intent =  Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
 
@@ -44,12 +40,12 @@ class LoginActivity : AppCompatActivity() {
                 val email = binding.emailLogin.text.toString()
                 val password = binding.passwordLogin.text.toString()
 
-                val usuarioAUX = db.usuarioDAO().findByEmail(email);
+                val usuarioAUX = db.usuarioDAO().findByEmail(email)
 
                 if(usuarioAUX != null){
 
                     if(usuarioAUX.password == password){
-
+                        val usuarioLog = db.usuarioDAO().getUserById(usuarioAUX.id)
                         withContext(Dispatchers.Main) {
                             val context = this@LoginActivity
 
@@ -59,8 +55,12 @@ class LoginActivity : AppCompatActivity() {
 
                             Toast.makeText(applicationContext, mensaje, Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(context, MainActivity::class.java);
+                            val intent = Intent(context, MainActivity::class.java)
                             val usuarioID = usuarioAUX.id
+                            //todo: descomentar llamada al metodo sumarMonedas
+//                            if (usuarioLog != null) {
+//                                sumarMonedas(usuarioLog)
+//                            }
                             intent.putExtra("usuarioID", usuarioID)
                             startActivity(intent)
                         }
@@ -82,6 +82,21 @@ class LoginActivity : AppCompatActivity() {
         }
         readSettings()
     }
+
+    private fun sumarMonedas(usuario: Usuario) {
+
+        //todo: implemntar logica de tiempo
+        val currentCoins = usuario.monedas
+        val newCoins = currentCoins?.plus(100)
+        if (newCoins != null) {
+            usuario.monedas = newCoins
+            Toast.makeText(this, "Has ganado 100 monedas", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch(Dispatchers.IO) {
+                db.usuarioDAO().updateUsuario(usuario)
+            }
+        }
+    }
+
 
     private fun readSettings() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
