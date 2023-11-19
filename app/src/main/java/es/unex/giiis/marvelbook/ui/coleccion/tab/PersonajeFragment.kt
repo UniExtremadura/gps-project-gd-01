@@ -1,6 +1,6 @@
 package es.unex.giiis.marvelbook.ui.coleccion.tab
 
-import es.unex.giiis.marvelbook.ui.coleccion.tab.adapter.PersonajeAdapter
+import es.unex.giiis.marvelbook.ui.coleccion.tab.adapterTabs.PersonajeAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class PersonajeFragment : Fragment() {
+class PersonajeFragment : Fragment(){
 
     private lateinit var db: AppDatabase
     private lateinit var adapter: PersonajeAdapter
@@ -83,26 +83,32 @@ class PersonajeFragment : Fragment() {
                 }
             }
         }
-
-
-
     }
 
 
-
     private suspend fun fetchShows() {
-
         try {
-
             for (i in 0..200 step 20) {
-
                 for (aux in getNetworkService().getPersonajes(i).data?.results ?: listOf()) {
                     db.personajeDAO().insertarPersonaje(aux.toPersonaje())
                 }
             }
-
         } catch (cause: Throwable) {
             throw APIError("Unable to fetch data from API", cause)
+        }
+    }
+
+    fun performSearch(query: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            val originalList = db.personajeDAO().getAll()
+
+            withContext(Dispatchers.Main) {
+                val filteredList = originalList.filter { personaje ->
+                    personaje.name?.contains(query, ignoreCase = true) ?: true
+                }
+                (binding.rvPersonajeList.adapter as? PersonajeAdapter)?.updateList(filteredList)
+            }
         }
     }
 }
