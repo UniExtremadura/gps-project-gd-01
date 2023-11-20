@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/logoDefensa2"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="30dp"
+        android:contentDescription="@string/defensa"
+        app:layout_constraintBottom_toTopOf="@+id/logoVelocidad2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/defensa" />
+
+    <ImageView
+        android:id="@+id/logoVelocidad2"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="35dp"
+        android:contentDescription="@string/velocidad"
+        android:src="@drawable/velocidad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/valorAtaque2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/valor_ataque_sobre"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/valorDefensa2"
+        app:layout_constraintStart_toEndOf="@+id/logoAtaque2" />
+
+    <TextView
+        android:id="@+id/valorDefensa2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/valor_defensa_sobre"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/valorVelocidad2"
+        app:layout_constraintStart_toEndOf="@+id/logoDefensa2" />
+
+    <ImageView
+        android:id="@+id/logoAtaque2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="30dp"
+        android:contentDescription="@string/ataque"
+        app:layout_constraintBottom_toTopOf="@+id/logoDefensa2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ataque" />
+
+    <TextView
+        android:id="@+id/valorVelocidad2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="35dp"
+        android:text="@string/valor_vel_sobre"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/logoVelocidad2" />
+
+    <ImageView
+        android:id="@+id/imagenPersonaje1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/player1"
+        android:src="@drawable/logomarvel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imagenPersonaje2"
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:contentDescription="@string/player1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/logomarvel" />
+
+
+    <TextView
+        android:id="@+id/valorDefensa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
+        android:text="@string/valor_defensa_sobre"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valorAtaque" />
+
+    <ImageView
+        android:id="@+id/logoAtaque"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
+        android:contentDescription="@string/ataque"
+        app:layout_constraintEnd_toStartOf="@+id/valorAtaque"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ataque" />
+
+    <TextView
+        android:id="@+id/valorAtaque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:textSize="35sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
+        android:text="@string/valor_ataque_sobre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/logoDefensa"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
+        android:contentDescription="@string/defensa"
+        app:layout_constraintEnd_toStartOf="@+id/valorDefensa"
+        app:layout_constraintTop_toBottomOf="@+id/logoAtaque"
+        app:srcCompat="@drawable/defensa" />
+
+    <ImageView
+        android:id="@+id/logoVelocidad"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
+        android:contentDescription="@string/velocidad"
+        android:src="@drawable/velocidad"
+        app:layout_constraintEnd_toStartOf="@+id/valorVelocidad"
+        app:layout_constraintTop_toBottomOf="@+id/logoDefensa" />
+
+    <TextView
+        android:id="@+id/valorVelocidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="25dp"
+        android:text="@string/valor_vel_sobre"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valorDefensa" />
+
+    <ImageView
+        android:id="@+id/imagenFight"
+        android:layout_width="350dp"
+        android:layout_height="160dp"
+        app:layout_constraintBottom_toTopOf="@+id/imagenPersonaje2"
+        app:layout_constraintEnd_toEndOf="@+id/imagenPersonaje2"
+        app:layout_constraintStart_toStartOf="@+id/imagenPersonaje1"
+        app:layout_constraintTop_toBottomOf="@+id/imagenPersonaje1"
+        app:srcCompat="@drawable/logofight"
+        android:contentDescription="@string/DescripcionLogoRegistroMarvel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
