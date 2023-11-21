@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.api.APIError
@@ -13,6 +14,7 @@ import es.unex.giiis.marvelbook.api.getNetworkService
 import es.unex.giiis.marvelbook.data.api.toComic
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentComicBinding
+import es.unex.giiis.marvelbook.ui.coleccion.ColeccionViewModel
 import es.unex.giiis.marvelbook.ui.coleccion.tab.adapterTabs.ComicAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,6 +33,14 @@ class ComicFragment : Fragment() {
     ): View {
         db = AppDatabase.getInstance(requireContext())
         _binding = FragmentComicBinding.inflate(inflater, container, false)
+
+        val sharedViewModel = ViewModelProvider(requireActivity())[ColeccionViewModel::class.java]
+
+
+        sharedViewModel.getSearchTerm().observe(viewLifecycleOwner) { term ->
+            performSearch(term)
+        }
+
         return binding.root
 
     }
@@ -98,7 +108,7 @@ class ComicFragment : Fragment() {
         }
     }
 
-    fun performSearch(query: String) {
+    private fun performSearch(query: String) {
         lifecycleScope.launch(Dispatchers.IO) {
 
             val originalList = db.comicDAO().getAll()

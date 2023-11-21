@@ -10,14 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentColeccionBinding
-import es.unex.giiis.marvelbook.ui.coleccion.tab.ComicFragment
-import es.unex.giiis.marvelbook.ui.coleccion.tab.CreadorFragment
-import es.unex.giiis.marvelbook.ui.coleccion.tab.PersonajeFragment
+
 
 @Suppress("DEPRECATION")
 class ColeccionFragment : Fragment() {
@@ -29,10 +28,7 @@ class ColeccionFragment : Fragment() {
     private lateinit var adapter: ViewPagerAdapter
     private lateinit var tabLayout: TabLayout
 
-    private var personajeFragment : PersonajeFragment? = null
-    private var comicFragment : ComicFragment? = null
-    private var creadorFragment : CreadorFragment? = null
-
+    private lateinit var sharedViewModel: ColeccionViewModel
 
     private val binding get() = _binding!!
 
@@ -48,7 +44,7 @@ class ColeccionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
-
+        sharedViewModel = ViewModelProvider(requireActivity())[ColeccionViewModel::class.java]
         db = AppDatabase.getInstance(requireContext())
         _binding = FragmentColeccionBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -78,7 +74,9 @@ class ColeccionFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                onSearch(newText.orEmpty())
+                if (newText != null) {
+                    sharedViewModel.setSearchTerm(newText)
+                }
                 return false
             }
         })
@@ -115,29 +113,4 @@ class ColeccionFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    private fun onSearch(query: String) {
-
-        when (binding.viewPager.currentItem) {
-            0 -> {
-                if(personajeFragment == null){
-                    personajeFragment = adapter.getFragmentPersonaje()
-                }
-                personajeFragment!!.performSearch(query)
-            }
-            1 -> {
-                if(comicFragment == null) {
-                    comicFragment = adapter.getFragmentComic()
-                }
-                comicFragment!!.performSearch(query)
-            }
-            2 -> {
-                if(creadorFragment == null) {
-                    creadorFragment = adapter.getFragmentCreador()
-                }
-                creadorFragment!!.performSearch(query)
-            }
-        }
-    }
-
 }

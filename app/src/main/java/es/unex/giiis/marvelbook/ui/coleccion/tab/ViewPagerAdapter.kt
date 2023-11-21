@@ -38,16 +38,4 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
         }
         return fragment
     }
-
-    fun getFragmentPersonaje(): PersonajeFragment {
-        return personaje
-    }
-
-    fun getFragmentComic(): ComicFragment {
-        return comic
-    }
-
-    fun getFragmentCreador(): CreadorFragment {
-        return creador
-    }
 }
