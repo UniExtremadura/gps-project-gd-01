@@ -26,15 +26,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         db = AppDatabase.getInstance(applicationContext)
-//
-//        val intent = Intent(this, MainActivity::class.java)
-//            intent.putExtra("usuarioID", 1L)
-//            startActivity(intent)
-        //TODO arreglar login
-
 
         binding.crearCuenta.setOnClickListener{
-            val intent =  Intent(this, RegisterActivity::class.java);
+            val intent =  Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
 
@@ -44,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
                 val email = binding.emailLogin.text.toString()
                 val password = binding.passwordLogin.text.toString()
 
-                val usuarioAUX = db.usuarioDAO().findByEmail(email);
+                val usuarioAUX = db.usuarioDAO().findByEmail(email)
 
                 if(usuarioAUX != null){
 
@@ -59,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
                             Toast.makeText(applicationContext, mensaje, Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(context, MainActivity::class.java);
+                            val intent = Intent(context, MainActivity::class.java)
                             val usuarioID = usuarioAUX.id
                             intent.putExtra("usuarioID", usuarioID)
                             startActivity(intent)

@@ -38,9 +38,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        usuarioSesionID = intent.getLongExtra("usuarioID", 0L);
+        usuarioSesionID = intent.getLongExtra("usuarioID", 0L)
 
-        //TODO: Hacer que la activity reciba el objeto usuario tras registrarse/iniciar sesión
         setUpUI()
     }
 
@@ -59,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.ajustesFragment || destination.id == R.id.cuentaFragment) {
+            if (destination.id == R.id.ajustesFragment || destination.id == R.id.cuentaFragment || destination.id == R.id.mazoDetallesFragment) {
                 binding.navView.visibility = View.GONE
             }
             else{

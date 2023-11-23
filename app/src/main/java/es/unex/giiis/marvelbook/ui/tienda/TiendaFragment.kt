@@ -63,11 +63,11 @@ class TiendaFragment : Fragment() {
 
         if (user.monedas!! >= 10) {
 
-            user.monedas = user.monedas?.minus(10);
+            user.monedas = user.monedas?.minus(10)
             lifecycleScope.launch(Dispatchers.IO) {
                 db.usuarioDAO().updateUsuario(user)
             }
-            val intent = Intent(requireContext(), SobreActivity::class.java);
+            val intent = Intent(requireContext(), SobreActivity::class.java)
             intent.putExtra("usuarioID", user.id)
             intent.putExtra("sobreTipo", 1)
             startActivity(intent)
@@ -80,11 +80,11 @@ class TiendaFragment : Fragment() {
 
         if (user.monedas!! >= 20) {
 
-            user.monedas = user.monedas?.minus(20);
+            user.monedas = user.monedas?.minus(20)
             lifecycleScope.launch(Dispatchers.IO) {
                 db.usuarioDAO().updateUsuario(user)
             }
-            val intent = Intent(requireContext(), SobreActivity::class.java);
+            val intent = Intent(requireContext(), SobreActivity::class.java)
             intent.putExtra("usuarioID", user.id)
             intent.putExtra("sobreTipo", 2)
             startActivity(intent)

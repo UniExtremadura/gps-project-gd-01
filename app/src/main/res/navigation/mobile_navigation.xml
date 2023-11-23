@@ -14,6 +14,11 @@
         app:destination="@id/cuentaFragment">
     </action>
 
+    <action
+        android:id="@+id/action_global_mazoDetallesFragment"
+        app:destination="@id/mazoDetallesFragment">
+    </action>
+
     <fragment
         android:id="@+id/navigation_coleccion"
         android:name="es.unex.giiis.marvelbook.ui.coleccion.ColeccionFragment"
@@ -24,7 +29,12 @@
         android:id="@+id/navigation_mazo"
         android:name="es.unex.giiis.marvelbook.ui.mazo.MazoFragment"
         android:label="@string/mazo"
-        tools:layout="@layout/fragment_mazo" />
+        tools:layout="@layout/fragment_mazo" >
+        <argument
+            android:name="usuarioID"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_tienda"
@@ -47,6 +57,21 @@
         android:name="es.unex.giiis.marvelbook.ui.cuenta.CuentaFragment"
         android:label="@string/cuenta"
         tools:layout="@layout/fragment_cuenta">
+        <argument
+            android:name="usuarioID"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mazoDetallesFragment"
+        android:name="es.unex.giiis.marvelbook.ui.mazo.MazoDetallesFragment"
+        android:label="fragment_mazo_detalles"
+        tools:layout="@layout/fragment_mazo_detalles">
+        <argument
+            android:name="personajeMazoID"
+            app:argType="long"
+            android:defaultValue="0L" />
         <argument
             android:name="usuarioID"
             app:argType="long"

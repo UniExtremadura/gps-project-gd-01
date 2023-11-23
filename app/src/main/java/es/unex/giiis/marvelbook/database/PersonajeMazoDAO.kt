@@ -11,6 +11,10 @@ interface PersonajeMazoDAO {
     @Query("SELECT COUNT(*) FROM PersonajeMazo WHERE usuarioID = :usuarioID")
     fun numeroPersonajeMazo(vararg usuarioID: Long): Int
 
+    @Query("SELECT * FROM PersonajeMazo WHERE id = :personajeMazoID")
+    fun getById(vararg personajeMazoID: Long): PersonajeMazo
+
+
     @Query("SELECT * FROM PersonajeMazo WHERE usuarioID = :usuarioID ORDER BY fav DESC, name ASC")
     fun getAll(vararg usuarioID: Long): List<PersonajeMazo>
 

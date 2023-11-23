@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ui.mazo.MazoDetallesFragment">
+
+    <ImageView
+        android:id="@+id/fotoPersonajeMazo"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="28dp"
+        android:contentDescription="@string/descFotoPersonaje"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logomarvel" />
+
+    <TextView
+        android:id="@+id/ratingNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="35dp"
+        android:text="@string/ratingNombre"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ratingValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        android:text="@string/ratingValue"
+        android:textColor="@color/black"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/ratingNombre" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="52dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="36dp"
+        android:contentDescription="@string/ratingNombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingNombre"
+        app:srcCompat="@drawable/rating_icon" />
+
+    <TextView
+        android:id="@+id/nombrePersonaje"
+        android:layout_width="380sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="100dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/nombrePersonaje"
+        android:textSize="40sp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fotoPersonajeMazo"
+        tools:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageDefendPersonajeMazo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/imagen_defensa_sobre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombrePersonaje"
+        app:srcCompat="@drawable/defensa" />
+
+    <TextView
+        android:id="@+id/speedPersonajeMazo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/valor_vel_sobre"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageSpeedPersonajeMazo"
+        app:layout_constraintTop_toBottomOf="@+id/nombrePersonaje" />
+
+    <TextView
+        android:id="@+id/defendPersonajeMazo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="65dp"
+        android:text="@string/valor_defensa_sobre"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageDefendPersonajeMazo"
+        app:layout_constraintTop_toBottomOf="@+id/nombrePersonaje" />
+
+    <ImageView
+        android:id="@+id/imagePowerPersonajeMazo"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/imagen_ataque_sobre"
+        app:layout_constraintStart_toEndOf="@+id/defendPersonajeMazo"
+        app:layout_constraintTop_toBottomOf="@+id/nombrePersonaje"
+        app:srcCompat="@drawable/ataque" />
+
+    <ImageView
+        android:id="@+id/imageSpeedPersonajeMazo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/imagen_velocidad_sobre"
+        app:layout_constraintStart_toEndOf="@+id/powerPersonajeMazo"
+        app:layout_constraintTop_toBottomOf="@+id/nombrePersonaje"
+        app:srcCompat="@drawable/velocidad" />
+
+    <TextView
+        android:id="@+id/powerPersonajeMazo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="65dp"
+        android:text="@string/valor_ataque_sobre"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imagePowerPersonajeMazo"
+        app:layout_constraintTop_toBottomOf="@+id/nombrePersonaje" />
+
+    <Button
+        android:id="@+id/botonBatalla"
+        android:layout_width="267dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="72dp"
+        android:background="@drawable/boton_registro"
+        android:backgroundTint="#BF0000"
+        android:text="@string/botonBatalla"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        tools:ignore="TextSizeCheck" />
+
+    <Button
+        android:id="@+id/botonVender"
+        android:layout_width="267dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="72dp"
+        android:background="@drawable/boton_registro"
+        android:backgroundTint="#BF0000"
+        android:text="@string/botonVender"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botonBatalla"
+        tools:ignore="TextSizeCheck" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="44dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagePowerPersonajeMazo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -9,7 +9,8 @@ import es.unex.giiis.marvelbook.databinding.ItemMazoBinding
 
 class PersonajeMazoAdapterMazo(
     private var personajes: List<PersonajeMazo>,
-    private val onFavClickListener: (position: Int) -> Unit
+    private val onFavClickListener: (position: Int) -> Unit,
+    private val onClick: (personajeMazo: PersonajeMazo) -> Unit,
 ) : RecyclerView.Adapter<PersonajeMazoAdapterMazo.ShowViewHolder>() {
 
     fun updateList(newList: List<PersonajeMazo>) {
@@ -19,7 +20,8 @@ class PersonajeMazoAdapterMazo(
 
     class ShowViewHolder(
         private val binding: ItemMazoBinding,
-        private val onFavClickListener: (position: Int) -> Unit
+        private val onFavClickListener: (position: Int) -> Unit,
+        private val onClick: (personajeMazo: PersonajeMazo) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -44,7 +46,9 @@ class PersonajeMazoAdapterMazo(
                 Glide.with(fotoPersonajeSobre.context)
                     .load(personajeMazo.imagen.toString())
                     .into(fotoPersonajeSobre)
-
+                clItemSobre.setOnClickListener {
+                    onClick(personajeMazo)
+                }
             }
         }
     }
@@ -53,7 +57,7 @@ class PersonajeMazoAdapterMazo(
             LayoutInflater.from(parent.context),
             parent, false
         )
-        return ShowViewHolder(binding, onFavClickListener)
+        return ShowViewHolder(binding, onFavClickListener, onClick)
     }
     override fun getItemCount() = personajes.size
     override fun onBindViewHolder(holder: ShowViewHolder, position:

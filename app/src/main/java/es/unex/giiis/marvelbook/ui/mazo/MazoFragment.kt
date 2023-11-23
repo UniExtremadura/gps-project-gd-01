@@ -9,7 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.adapter.PersonajeMazoAdapterMazo
@@ -27,6 +30,10 @@ class MazoFragment : Fragment() {
     private lateinit var user: Usuario
     private lateinit var adapter: PersonajeMazoAdapterMazo
     private lateinit var db: AppDatabase
+    private lateinit var navController: NavController
+
+    private lateinit var sharedViewModel: MazoViewModel
+
     private var searchMenuItem: MenuItem? = null
 
     private val binding get() = _binding!!
@@ -44,7 +51,15 @@ class MazoFragment : Fragment() {
         }
 
         _binding = FragmentMazoBinding.inflate(inflater, container, false)
+        navController = findNavController()
         val root: View = binding.root
+
+        sharedViewModel = ViewModelProvider(requireActivity())[MazoViewModel::class.java]
+
+        sharedViewModel.getSearchTerm().observe(viewLifecycleOwner) { term ->
+            onSearch(term)
+        }
+
         setHasOptionsMenu(true)
         setUpRecyclerView()
         return root
@@ -58,17 +73,24 @@ class MazoFragment : Fragment() {
                 adapter = PersonajeMazoAdapterMazo(
                     personajes = personajesMazo,
                     onFavClickListener = { position ->
-                        val personaje = personajesMazo[position]
-                        personaje.fav = !personaje.fav!!
+                        val personajeMazo = personajesMazo[position]
+                        personajeMazo.fav = !personajeMazo.fav!!
                         lifecycleScope.launch(Dispatchers.IO) {
-                            db.personajeMazoDAO().updatePersonajeMazo(personaje)
-                            personajesMazo = db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
+                            db.personajeMazoDAO().updatePersonajeMazo(personajeMazo)
+                            personajesMazo =
+                                db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
 
                             withContext(Dispatchers.Main) {
                                 adapter.updateList(personajesMazo)
                                 adapter.notifyItemChanged(position)
                             }
                         }
+                    }, onClick = {
+                        val action =
+                            MazoDetallesFragmentDirections.actionGlobalMazoDetallesFragment(
+                                it.id, usuarioSesionID
+                            )
+                        navController.navigate(action)
                     }
                 )
                 with(binding) {
@@ -91,14 +113,16 @@ class MazoFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                onSearch(newText.orEmpty())
+                if (newText != null) {
+                    sharedViewModel.setSearchTerm(newText)
+                }
                 return false
             }
         })
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    fun onSearch(query: String) {
+    private fun onSearch(query: String) {
         lifecycleScope.launch(Dispatchers.IO) {
 
             val originalList = db.personajeMazoDAO().getAll(usuarioSesionID)
