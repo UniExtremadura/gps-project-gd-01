@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.api.APIError
 import es.unex.giiis.marvelbook.api.getNetworkService
@@ -15,6 +17,7 @@ import es.unex.giiis.marvelbook.data.api.toCreador
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentCreadorBinding
 import es.unex.giiis.marvelbook.ui.coleccion.tab.adapter.CreadorAdapter
+import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.CreadorDetallesFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,12 +32,15 @@ class CreadorFragment : Fragment() {
 
     private var _binding: FragmentCreadorBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View{
         db = AppDatabase.getInstance(requireContext())
         _binding = FragmentCreadorBinding.inflate(inflater, container, false)
+        navController = findNavController()
         return binding.root
 
     }
@@ -51,7 +57,6 @@ class CreadorFragment : Fragment() {
                         binding.spinner.visibility = View.VISIBLE
                     }
                     try {
-
                         fetchShowsCreators()
 
                     } catch (error: APIError) {
@@ -78,10 +83,10 @@ class CreadorFragment : Fragment() {
             val creadores = db.creadorDAO().getAll()
             withContext(Dispatchers.Main) {
                 adapter = CreadorAdapter(creadores = creadores, onClick = {
-                    Toast.makeText(
-                        context, "click on: " + it.name,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val action = CreadorDetallesFragmentDirections.actionGlobalCreadorDetallesFragment(
+                        it.id.toLong()
+                    )
+                    navController.navigate(action)
                 }
                 )
                 with(binding) {
@@ -100,7 +105,7 @@ class CreadorFragment : Fragment() {
 
         try {
 
-            for (i in 0..200 step 20) {
+            for (i in 0..2000 step 20) {
 
                 for (aux in getNetworkService().getCreadores(i).data?.results ?: listOf()) {
                     db.creadorDAO().insertarCreador(aux.toCreador())

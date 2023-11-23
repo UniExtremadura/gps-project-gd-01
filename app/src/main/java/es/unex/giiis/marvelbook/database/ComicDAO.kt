@@ -10,6 +10,9 @@ interface ComicDAO {
     @Query("SELECT COUNT(*) FROM Comic")
     fun numeroComics(): Int
 
+    @Query("SELECT * FROM Comic WHERE id = :id")
+    fun getById(vararg id: Long): Comic
+
     @Query("SELECT * FROM Comic ORDER BY title")
     fun getAll(): List<Comic>
 

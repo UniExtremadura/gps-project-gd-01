@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.api.APIError
 import es.unex.giiis.marvelbook.api.getNetworkService
 import es.unex.giiis.marvelbook.data.api.toPersonaje
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentPersonajeBinding
+import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.PersonajeDetallesFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,12 +29,15 @@ class PersonajeFragment : Fragment() {
 
     private var _binding: FragmentPersonajeBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         db = AppDatabase.getInstance(requireContext())
         _binding = FragmentPersonajeBinding.inflate(inflater, container, false)
+        navController = findNavController()
         return binding.root
 
     }
@@ -71,10 +77,10 @@ class PersonajeFragment : Fragment() {
             val personajes = db.personajeDAO().getAll()
             withContext(Dispatchers.Main) {
                 adapter = PersonajeAdapter(personajes = personajes, onClick = {
-                    Toast.makeText(
-                        context, "click on: " + it.name,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val action = PersonajeDetallesFragmentDirections.actionGlobalPersonajeDetallesFragment(
+                        it.id.toLong()
+                    )
+                    navController.navigate(action)
                 }
                 )
                 with(binding) {
@@ -83,9 +89,6 @@ class PersonajeFragment : Fragment() {
                 }
             }
         }
-
-
-
     }
 
 
@@ -94,7 +97,7 @@ class PersonajeFragment : Fragment() {
 
         try {
 
-            for (i in 0..200 step 20) {
+            for (i in 0..2000 step 20) {
 
                 for (aux in getNetworkService().getPersonajes(i).data?.results ?: listOf()) {
                     db.personajeDAO().insertarPersonaje(aux.toPersonaje())
