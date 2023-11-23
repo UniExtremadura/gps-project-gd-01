@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,8 @@ import es.unex.giiis.marvelbook.api.getNetworkService
 import es.unex.giiis.marvelbook.data.api.toCreador
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentCreadorBinding
-import es.unex.giiis.marvelbook.ui.coleccion.tab.adapter.CreadorAdapter
+import es.unex.giiis.marvelbook.ui.coleccion.ColeccionViewModel
+import es.unex.giiis.marvelbook.ui.coleccion.tab.adapterTabs.CreadorAdapter
 import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.CreadorDetallesFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,9 +42,16 @@ class CreadorFragment : Fragment() {
     ): View{
         db = AppDatabase.getInstance(requireContext())
         _binding = FragmentCreadorBinding.inflate(inflater, container, false)
-        navController = findNavController()
-        return binding.root
 
+        navController = findNavController()
+
+        val sharedViewModel = ViewModelProvider(requireActivity())[ColeccionViewModel::class.java]
+
+        sharedViewModel.getSearchTerm().observe(viewLifecycleOwner) { term ->
+            performSearch(term)
+        }
+
+        return binding.root
     }
 
 
@@ -93,29 +102,35 @@ class CreadorFragment : Fragment() {
                     rvCreadorList.layoutManager = LinearLayoutManager(context)
                     rvCreadorList.adapter = adapter
                 }
-
             }
         }
-
-
-
     }
 
     private suspend fun fetchShowsCreators() {
-
         try {
 
-            for (i in 0..2000 step 20) {
+            for (i in 0..1000 step 20) {
 
                 for (aux in getNetworkService().getCreadores(i).data?.results ?: listOf()) {
                     db.creadorDAO().insertarCreador(aux.toCreador())
                 }
             }
-
         } catch (cause: Throwable) {
             throw APIError("Unable to fetch data from API", cause)
         }
     }
 
+    private fun performSearch(query: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
 
+            val originalList = db.creadorDAO().getAll()
+
+            withContext(Dispatchers.Main) {
+                val filteredList = originalList.filter { creador ->
+                    creador.name?.contains(query, ignoreCase = true) ?: true
+                }
+                (binding.rvCreadorList.adapter as? CreadorAdapter)?.updateList(filteredList)
+            }
+        }
+    }
 }

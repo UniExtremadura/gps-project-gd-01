@@ -27,7 +27,7 @@ class ComicDetallesPersonajesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
-
+    private var comicID: Long = 0L
     private lateinit var comic: Comic
     private lateinit var adapter: ComicPersonajesAdapter
 
@@ -37,11 +37,7 @@ class ComicDetallesPersonajesFragment : Fragment() {
     ): View? {
         db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
-        val comicID = arguments?.getLong("comicID")!!
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            comic = db.comicDAO().getById(comicID)
-        }
         _binding = FragmentComicDetallesPersonajesBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -58,7 +54,8 @@ class ComicDetallesPersonajesFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         lifecycleScope.launch(Dispatchers.IO) {
-
+            comicID = arguments?.getLong("comicID")!!
+            comic = db.comicDAO().getById(comicID)
             val listPersonajesID = comic.characters
             val personajesList = mutableListOf<Personaje>()
             var numPersonajes = 0

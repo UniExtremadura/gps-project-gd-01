@@ -37,11 +37,8 @@ class ComicDetallesCreadoresFragment : Fragment() {
     ): View? {
         db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
-        val comicID = arguments?.getLong("comicID")!!
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            comic = db.comicDAO().getById(comicID)
-        }
+
         _binding = FragmentComicDetallesCreadoresBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -58,7 +55,8 @@ class ComicDetallesCreadoresFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         lifecycleScope.launch(Dispatchers.IO) {
-
+            val comicID = arguments?.getLong("comicID")!!
+            comic = db.comicDAO().getById(comicID)
             val listCreadoresID = comic.creators
             val creadoresList = mutableListOf<Creador>()
             var numCreadores = 0

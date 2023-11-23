@@ -1,5 +1,6 @@
-package es.unex.giiis.marvelbook.ui.coleccion.tab.adapter
+package es.unex.giiis.marvelbook.ui.coleccion.tab.adapterTabs
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import es.unex.giiis.marvelbook.databinding.ItemColeccionBinding
 
 class CreadorAdapter (
 
-    private val creadores: List<Creador>,
+    private var creadores: List<Creador>,
     private val onClick: (creadores: Creador) -> Unit,
     ) : RecyclerView.Adapter<CreadorAdapter.ShowViewHolder>() {
 
@@ -17,7 +18,7 @@ class CreadorAdapter (
             private val binding: ItemColeccionBinding,
             private val onClick: (creador: Creador) -> Unit,
         ) : RecyclerView.ViewHolder(binding.root) {
-            fun bind(creador: Creador, totalItems: Int) {
+            fun bind(creador: Creador) {
                 with(binding) {
                     nombrePersonajeLista.text = creador.name
 
@@ -31,6 +32,13 @@ class CreadorAdapter (
                 }
             }
         }
+
+        @SuppressLint("NotifyDataSetChanged")
+        fun updateList(newList: List<Creador>) {
+            creadores = newList
+            notifyDataSetChanged()
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType:
         Int): ShowViewHolder {
             val binding =
@@ -43,6 +51,6 @@ class CreadorAdapter (
         override fun getItemCount() = creadores.size
         override fun onBindViewHolder(holder: ShowViewHolder, position:
         Int) {
-            holder.bind(creadores[position], creadores.size)
+            holder.bind(creadores[position])
         }
 }

@@ -12,4 +12,6 @@
     <color name="colorInactive">#757575</color>
     <color name="colorActive">#000000</color>
     <color name="rojoRegistro">#FC0000</color>
+    <color name="green">#20E40B</color>
+    <color name="blue">#5E738B</color>
 </resources>
