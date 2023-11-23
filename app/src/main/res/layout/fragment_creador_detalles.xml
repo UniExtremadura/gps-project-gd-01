@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/foto"
+        android:layout_width="190dp"
+        android:layout_height="210dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="150dp"
+        android:contentDescription="@string/aa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/apariciones"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/Publicaciones"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombreCreadorDetalles"
+        tools:ignore="TextSizeCheck" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/creadorComicsList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apariciones"
+        tools:listitem="@layout/detalles_item" />
+
+    <TextView
+        android:id="@+id/nombreCreadorDetalles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="95dp"
+        android:fontFamily="@font/alata"
+        android:gravity="center_horizontal"
+        android:text="@string/creadores"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foto" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
