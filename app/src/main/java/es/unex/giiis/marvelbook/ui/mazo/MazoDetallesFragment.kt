@@ -55,7 +55,6 @@ class MazoDetallesFragment : Fragment() {
                     title = personajeMazo.name
                 }
 
-
                 with(binding) {
                     nombrePersonaje.text = personajeMazo.name
                     ratingValue.text = personajeMazo.rating.toString()
@@ -76,9 +75,6 @@ class MazoDetallesFragment : Fragment() {
                 }
             }
         }
-
-
-
         return binding.root
     }
 

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import es.unex.giiis.marvelbook.database.AppDatabase
@@ -75,7 +74,7 @@ class BatallaActivity : AppCompatActivity() {
     }
 
     private fun setUpView(personaje1: PersonajeMazo, personaje2: PersonajeMazo) {
-        with(binding){
+        with(binding) {
             valorVelocidad.text = personaje1.speed.toString()
             valorAtaque.text = personaje1.power.toString()
             valorDefensa.text = personaje1.defense.toString()
@@ -93,22 +92,19 @@ class BatallaActivity : AppCompatActivity() {
     }
 
 
-    private fun gestionarBatalla(personaje1 : PersonajeMazo, personaje2 : PersonajeMazo): Boolean {
+    private fun gestionarBatalla(personaje1: PersonajeMazo, personaje2: PersonajeMazo): Boolean {
         val ganador = personaje1.rating!! >= personaje2.rating!!
 
         val user = db.usuarioDAO().getUserById(usuarioSesionID)
-        if(user != null){
-            if(!ganador) {
-                if(user.monedas!! < 5) {
+        if (user != null) {
+            if (!ganador) {
+                if (user.monedas!! < 5) {
                     user.monedas = 0
-                } else{
+                } else {
                     user.monedas = user.monedas!! - 5
-                    Log.d("MONEDAS-", user.monedas.toString())
                 }
-            } else{
+            } else {
                 user.monedas = user.monedas!! + 3
-                Log.d("MONEDAS+", user.monedas.toString())
-
             }
             db.usuarioDAO().updateUsuario(user)
         }

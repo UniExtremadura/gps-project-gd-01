@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -29,6 +32,9 @@ class MazoFragment : Fragment() {
     private lateinit var db: AppDatabase
     private lateinit var navController: NavController
 
+    private lateinit var sharedViewModel: MazoViewModel
+
+    private var searchMenuItem: MenuItem? = null
 
     private val binding get() = _binding!!
 
@@ -47,6 +53,13 @@ class MazoFragment : Fragment() {
         _binding = FragmentMazoBinding.inflate(inflater, container, false)
         navController = findNavController()
         val root: View = binding.root
+
+        sharedViewModel = ViewModelProvider(requireActivity())[MazoViewModel::class.java]
+
+        sharedViewModel.getSearchTerm().observe(viewLifecycleOwner) { term ->
+            onSearch(term)
+        }
+
         setHasOptionsMenu(true)
         setUpRecyclerView()
         return root
@@ -64,7 +77,8 @@ class MazoFragment : Fragment() {
                         personajeMazo.fav = !personajeMazo.fav!!
                         lifecycleScope.launch(Dispatchers.IO) {
                             db.personajeMazoDAO().updatePersonajeMazo(personajeMazo)
-                            personajesMazo = db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
+                            personajesMazo =
+                                db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
 
                             withContext(Dispatchers.Main) {
                                 adapter.updateList(personajesMazo)
@@ -72,9 +86,10 @@ class MazoFragment : Fragment() {
                             }
                         }
                     }, onClick = {
-                        val action = MazoDetallesFragmentDirections.actionGlobalMazoDetallesFragment(
-                            it.id, usuarioSesionID
-                        )
+                        val action =
+                            MazoDetallesFragmentDirections.actionGlobalMazoDetallesFragment(
+                                it.id, usuarioSesionID
+                            )
                         navController.navigate(action)
                     }
                 )
@@ -86,11 +101,49 @@ class MazoFragment : Fragment() {
         }
     }
 
-
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_search, menu)
+        searchMenuItem = menu.findItem(R.id.action_search)
+        val searchView = searchMenuItem?.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    sharedViewModel.setSearchTerm(newText)
+                }
+                return false
+            }
+        })
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun onSearch(query: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            val originalList = db.personajeMazoDAO().getAll(usuarioSesionID)
+
+            withContext(Dispatchers.Main) {
+                val filteredList = originalList.filter { personajeMazo ->
+                    personajeMazo.name?.contains(query, ignoreCase = true) ?: true
+                }
+                (binding.listaMazo.adapter as? PersonajeMazoAdapterMazo)?.updateList(filteredList)
+            }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onDestroyOptionsMenu() {
+        searchMenuItem?.let {
+            val searchView = it.actionView as SearchView
+            searchView.setQuery("", false)
+            searchView.isIconified = true
+        }
+        super.onDestroyOptionsMenu()
     }
 
 
