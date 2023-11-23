@@ -16,6 +16,9 @@ interface CreadorDAO {
     @Query("SELECT * FROM Creador WHERE id = :id")
     fun obtenerCreador(vararg id: Int): List<Creador>
 
+    @Query("SELECT * FROM Creador WHERE id = :id")
+    fun getByID(vararg id: Long): Creador
+
     @Insert
     fun insertarCreador(vararg creador: Creador)
 

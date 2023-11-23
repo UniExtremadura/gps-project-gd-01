@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.api.APIError
 import es.unex.giiis.marvelbook.api.getNetworkService
@@ -16,6 +18,7 @@ import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentComicBinding
 import es.unex.giiis.marvelbook.ui.coleccion.ColeccionViewModel
 import es.unex.giiis.marvelbook.ui.coleccion.tab.adapterTabs.ComicAdapter
+import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.ComicDetallesFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,15 +30,18 @@ class ComicFragment : Fragment() {
 
     private var _binding: FragmentComicBinding? = null
     private val binding get() = _binding!!
+    private lateinit var navController : NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         db = AppDatabase.getInstance(requireContext())
+
         _binding = FragmentComicBinding.inflate(inflater, container, false)
 
-        val sharedViewModel = ViewModelProvider(requireActivity())[ColeccionViewModel::class.java]
+        navController = findNavController()
 
+        val sharedViewModel = ViewModelProvider(requireActivity())[ColeccionViewModel::class.java]
 
         sharedViewModel.getSearchTerm().observe(viewLifecycleOwner) { term ->
             performSearch(term)
@@ -78,10 +84,10 @@ class ComicFragment : Fragment() {
             val comics = db.comicDAO().getAll()
             withContext(Dispatchers.Main) {
                 adapter = ComicAdapter(comics = comics, onClick = {
-                    Toast.makeText(
-                        context, "click on: " + it.title,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val action = ComicDetallesFragmentDirections.actionGlobalComicDetallesFragment(
+                        it.id.toLong()
+                    )
+                    navController.navigate(action)
                 }
                 )
                 with(binding) {
@@ -94,7 +100,8 @@ class ComicFragment : Fragment() {
 
     private suspend fun fetchShowsComics() {
         try {
-            for (i in 0..500 step 20) {
+
+            for (i in 0..1000 step 20) {
 
                 for (aux in getNetworkService().getComics(i).data?.results ?: listOf()) {
                     if(db.comicDAO().obtenerComic(aux.toComic().id).isEmpty()){
