@@ -84,7 +84,7 @@ class PersonajeDetallesFragment : Fragment() {
             if (listComicsID != null) {
 
                 for(aux in listComicsID){
-                    val comic = db.comicDAO().getById(aux.toLong())
+                    var comic = db.comicDAO().getById(aux.toLong())
                     if(comic!= null){
                         comicsList.add(comic)
                         numComic++

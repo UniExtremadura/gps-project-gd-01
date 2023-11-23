@@ -38,7 +38,6 @@ class ComicDetallesCreadoresFragment : Fragment() {
         db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
 
-
         _binding = FragmentComicDetallesCreadoresBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -62,7 +61,7 @@ class ComicDetallesCreadoresFragment : Fragment() {
             var numCreadores = 0
             if (listCreadoresID != null) {
                 for(aux in listCreadoresID){
-                    val creador = db.creadorDAO().getByID(aux.toLong())
+                    var creador = db.creadorDAO().getByID(aux.toLong())
 
                     if(creador!= null){
                         creadoresList.add(creador)
