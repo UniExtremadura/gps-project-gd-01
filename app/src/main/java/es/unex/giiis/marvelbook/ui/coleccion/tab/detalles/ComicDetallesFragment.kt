@@ -18,6 +18,7 @@ import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.comicListado.ComicDeta
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ComicDetallesFragment : Fragment() {
@@ -27,19 +28,14 @@ class ComicDetallesFragment : Fragment() {
     private var _binding: FragmentComicDetallesBinding? = null
     private val binding get() = _binding!!
 
-
     private lateinit var comic: Comic
+    private var comicID: Long = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         db = AppDatabase.getInstance(requireContext())
-        var comicID = arguments?.getLong("comicID")!!
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            comic = db.comicDAO().getById(comicID)
-        }
 
         _binding = FragmentComicDetallesBinding.inflate(inflater, container, false)
 
@@ -51,47 +47,56 @@ class ComicDetallesFragment : Fragment() {
 
         val navController = findNavController()
 
-        requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
-            title = comic.title
-        }
+        comicID = arguments?.getLong("comicID")!!
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            comic = db.comicDAO().getById(comicID)
+
+            withContext(Dispatchers.Main) {
+                requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
+                    title = comic.title
+                }
+
+                with(binding) {
+                    if (comic.description == null || comic.description == "") {
+                        descripcionComic.text = getString(R.string.valorNuloDescripcion)
+                    } else {
+                        descripcionComic.text = comic.description
+                    }
+                    if (comic.pageCount == null || comic.pageCount == 0) {
+                        valorNpaginas.text = getString(R.string.valorNulopaginas)
+                    } else {
+                        valorNpaginas.text = comic.pageCount.toString()
+                    }
+
+                    if (comic.isbn == null || comic.isbn == "") {
+                        valorISBN.text = getString(R.string.valorNuloISBN)
+                    } else {
+                        valorISBN.text = comic.isbn
+                    }
 
 
-        with(binding) {
-            if(comic.description == null || comic.description == "") {
-                descripcionComic.text = getString(R.string.valorNuloDescripcion)
-            }else{
-                descripcionComic.text = comic.description
-            }
-            if(comic.pageCount == null || comic.pageCount == 0) {
-                valorNpaginas.text = getString(R.string.valorNulopaginas)
-            }else{
-                valorNpaginas.text = comic.pageCount.toString()
-            }
 
-            if(comic.isbn == null || comic.isbn == "") {
-                valorISBN.text = getString(R.string.valorNuloISBN)
-            }else{
-                valorISBN.text = comic.isbn
-            }
+                    Glide.with(foto.context)
+                        .load(comic.imagen.toString())
+                        .into(foto)
 
+                    bVerPersonajes.setOnClickListener {
+                        val action =
+                            ComicDetallesPersonajesFragmentDirections.actionGlobalComicDetallesPersonajesFragment(
+                                comic.id.toLong()
+                            )
+                        navController.navigate(action)
+                    }
 
-
-            Glide.with(foto.context)
-                .load(comic.imagen.toString())
-                .into(foto)
-
-            bVerPersonajes.setOnClickListener{
-                val action = ComicDetallesPersonajesFragmentDirections.actionGlobalComicDetallesPersonajesFragment(
-                    comic.id.toLong()
-                )
-                navController.navigate(action)
-            }
-
-            bVerCreadores.setOnClickListener{
-                val action = ComicDetallesCreadoresFragmentDirections.actionGlobalComicDetallesCreadoresFragment(
-                    comic.id.toLong()
-                )
-                navController.navigate(action)
+                    bVerCreadores.setOnClickListener {
+                        val action =
+                            ComicDetallesCreadoresFragmentDirections.actionGlobalComicDetallesCreadoresFragment(
+                                comic.id.toLong()
+                            )
+                        navController.navigate(action)
+                    }
+                }
             }
         }
     }

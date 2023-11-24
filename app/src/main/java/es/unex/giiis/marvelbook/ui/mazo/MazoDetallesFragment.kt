@@ -6,12 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import es.unex.giiis.marvelbook.BatallaActivity
 import es.unex.giiis.marvelbook.R
@@ -49,9 +48,7 @@ class MazoDetallesFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             personajeMazo = db.personajeMazoDAO().getById(personajeMazoID)
             withContext(Dispatchers.Main) {
-                val appBarConfiguration = AppBarConfiguration(navController.graph)
                 requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
-                    setupWithNavController(navController, appBarConfiguration)
                     title = personajeMazo.name
                 }
 
@@ -72,6 +69,18 @@ class MazoDetallesFragment : Fragment() {
                     intent.putExtra("personajeMazoID", personajeMazo.id)
                     intent.putExtra("usuarioSesionID", usuarioSesionID)
                     startActivity(intent)
+                }
+
+                binding.botonVender.setOnClickListener {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val user = db.usuarioDAO().getUserById(usuarioSesionID)!!
+                        user.monedas = user.monedas?.plus(4)
+                        db.usuarioDAO().updateUsuario(user)
+
+                        db.personajeMazoDAO().eliminarPersonajesMazo(personajeMazo.id)
+                    }
+                    Toast.makeText(requireContext(), "Personaje vendido por 4 monedas", Toast.LENGTH_SHORT).show()
+                    navController.navigateUp()
                 }
             }
         }

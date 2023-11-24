@@ -34,18 +34,14 @@ class CreadorDetallesFragment : Fragment() {
 
     private lateinit var creador: Creador
     private lateinit var adapter: CreadorComicsAdapter
+    private var creadorID: Long = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
-        val creadorID = arguments?.getLong("creadorID")!!
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            creador = db.creadorDAO().getByID(creadorID)
-        }
 
         _binding = FragmentCreadorDetallesBinding.inflate(inflater, container, false)
 
@@ -55,18 +51,24 @@ class CreadorDetallesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
-            title = creador.name
-        }
+        creadorID = arguments?.getLong("creadorID")!!
+        lifecycleScope.launch(Dispatchers.IO) {
+            creador = db.creadorDAO().getByID(creadorID)
 
+            withContext(Dispatchers.Main) {
+                requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
+                    title = creador.name
+                }
 
-        with(binding) {
-            nombreCreadorDetalles.text = creador.name
-            Glide.with(foto.context)
-                .load(creador.imagen.toString())
-                .into(foto)
+                with(binding) {
+                    nombreCreadorDetalles.text = creador.name
+                    Glide.with(foto.context)
+                        .load(creador.imagen.toString())
+                        .into(foto)
+                }
+                setUpRecyclerView()
+            }
         }
-        setUpRecyclerView()
     }
 
     private fun setUpRecyclerView() {

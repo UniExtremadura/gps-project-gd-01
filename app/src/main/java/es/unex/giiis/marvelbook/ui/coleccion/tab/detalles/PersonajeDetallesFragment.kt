@@ -33,18 +33,15 @@ class PersonajeDetallesFragment : Fragment() {
 
     private lateinit var personaje: Personaje
     private lateinit var adapter: PersonajeComicsAdapter
+    private var personajeID: Long = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
-        val personajeID = arguments?.getLong("personajeID")!!
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            personaje = db.personajeDAO().getByID(personajeID)
-        }
 
         _binding = FragmentPersonajeDetallesBinding.inflate(inflater, container, false)
 
@@ -54,25 +51,32 @@ class PersonajeDetallesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        personajeID = arguments?.getLong("personajeID")!!
+        lifecycleScope.launch(Dispatchers.IO) {
+            personaje = db.personajeDAO().getByID(personajeID)
 
-        requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
-            title = personaje.name
+            withContext(Dispatchers.Main) {
+                requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
+                    title = personaje.name
+                }
+
+                with(binding) {
+                    nombrePersonajeColeccion.text = personaje.name
+                    if(personaje.description == ""){
+                        descripcion.visibility = View.GONE
+                    }
+                    else{
+                        descripcion.visibility = View.VISIBLE
+                        descripcion.text = personaje.description
+                    }
+                    Glide.with(foto.context)
+                        .load(personaje.imagen.toString())
+                        .into(foto)
+                }
+                setUpRecyclerView()
+            }
         }
 
-        with(binding) {
-            nombrePersonajeColeccion.text = personaje.name
-            if(personaje.description == ""){
-                descripcion.visibility = View.GONE
-            }
-            else{
-                descripcion.visibility = View.VISIBLE
-                descripcion.text = personaje.description
-            }
-            Glide.with(foto.context)
-                .load(personaje.imagen.toString())
-                .into(foto)
-        }
-        setUpRecyclerView()
     }
 
     private fun setUpRecyclerView() {
