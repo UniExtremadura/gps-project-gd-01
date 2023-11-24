@@ -19,6 +19,32 @@
         app:destination="@id/mazoDetallesFragment">
     </action>
 
+    <action
+        android:id="@+id/action_global_personajeDetallesFragment"
+        app:destination="@id/personajeDetallesFragment">
+    </action>
+
+    <action
+        android:id="@+id/action_global_creadorDetallesFragment"
+        app:destination="@id/creadorDetallesFragment">
+    </action>
+
+    <action
+        android:id="@+id/action_global_comicDetallesFragment"
+        app:destination="@id/comicDetallesFragment">
+    </action>
+
+    <action
+        android:id="@+id/action_global_comicDetallesPersonajesFragment"
+        app:destination="@id/comicDetallesPersonajesFragment">
+    </action>
+
+    <action
+        android:id="@+id/action_global_comicDetallesCreadoresFragment"
+        app:destination="@id/comicDetallesCreadoresFragment">
+    </action>
+
+
     <fragment
         android:id="@+id/navigation_coleccion"
         android:name="es.unex.giiis.marvelbook.ui.coleccion.ColeccionFragment"
@@ -62,7 +88,57 @@
             app:argType="long"
             android:defaultValue="0L" />
     </fragment>
-
+    <fragment
+        android:id="@+id/personajeDetallesFragment"
+        android:name="es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.PersonajeDetallesFragment"
+        android:label="fragment_personaje_detalles"
+        tools:layout="@layout/fragment_personaje_detalles">
+        <argument
+            android:name="personajeID"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/creadorDetallesFragment"
+        android:name="es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.CreadorDetallesFragment"
+        android:label="CreadorDetallesFragment"
+        tools:layout="@layout/fragment_creador_detalles">
+    <argument
+        android:name="creadorID"
+        app:argType="long"
+        android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/comicDetallesFragment"
+        android:name="es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.ComicDetallesFragment"
+        android:label="ComicDetallesFragment"
+        tools:layout="@layout/fragment_comic_detalles">
+        <argument
+            android:name="comicID"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/comicDetallesPersonajesFragment"
+        android:name="es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.comicListado.ComicDetallesPersonajesFragment"
+        android:label="fragment_comic_detalles_personajes"
+        tools:layout="@layout/fragment_comic_detalles_personajes"
+        >
+    <argument
+        android:name="comicID"
+        app:argType="long"
+        android:defaultValue="0L" />
+        </fragment>
+    <fragment
+        android:id="@+id/comicDetallesCreadoresFragment"
+        android:name="es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.comicListado.ComicDetallesCreadoresFragment"
+        android:label="fragment_comic_detalles_creadores"
+        tools:layout="@layout/fragment_comic_detalles_creadores"   >
+        <argument
+            android:name="comicID"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
     <fragment
         android:id="@+id/mazoDetallesFragment"
         android:name="es.unex.giiis.marvelbook.ui.mazo.MazoDetallesFragment"

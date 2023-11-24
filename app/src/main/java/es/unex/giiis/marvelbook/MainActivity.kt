@@ -58,7 +58,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.ajustesFragment || destination.id == R.id.cuentaFragment || destination.id == R.id.mazoDetallesFragment) {
+            if (destination.id == R.id.ajustesFragment || destination.id == R.id.cuentaFragment
+                || destination.id == R.id.personajeDetallesFragment || destination.id == R.id.comicDetallesFragment
+                || destination.id == R.id.creadorDetallesFragment || destination.id == R.id.comicDetallesCreadoresFragment
+                || destination.id == R.id.comicDetallesPersonajesFragment || destination.id == R.id.mazoDetallesFragment) {
                 binding.navView.visibility = View.GONE
             }
             else{

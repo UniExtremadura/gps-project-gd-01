@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/descripcionComic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="75dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:maxLines="5"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foto" />
+
+    <ImageView
+        android:id="@+id/foto"
+        android:layout_width="180dp"
+        android:layout_height="210dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="150dp"
+        android:contentDescription="@string/aa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/accesos"
+        android:layout_width="170dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="@string/AccesoBotones"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/foto"
+        app:layout_constraintStart_toStartOf="@+id/foto"
+        app:layout_constraintTop_toBottomOf="@+id/valorISBN"
+        tools:ignore="TextSizeCheck" />
+
+    <Button
+        android:id="@+id/bVerCreadores"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/rojoPrincipal"
+        android:text="@string/bVerCreadores"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/descripcionComic"
+        app:layout_constraintStart_toStartOf="@+id/descripcionComic"
+        app:layout_constraintTop_toBottomOf="@+id/accesos"
+        tools:ignore="TextContrastCheck,TextSizeCheck" />
+
+    <Button
+        android:id="@+id/bVerPersonajes"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/rojoPrincipal"
+        android:text="@string/bVerPersonajes"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/bVerCreadores"
+        app:layout_constraintStart_toStartOf="@+id/bVerCreadores"
+        app:layout_constraintTop_toBottomOf="@+id/bVerCreadores"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/nPaginas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/nPaginas"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descripcionComic" />
+
+    <TextView
+        android:id="@+id/isbn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/isbn"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nPaginas" />
+
+    <TextView
+        android:id="@+id/valorNpaginas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/valorNulopaginas"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/nPaginas"
+        app:layout_constraintTop_toTopOf="@+id/nPaginas" />
+
+    <TextView
+        android:id="@+id/valorISBN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/valorNuloISBN"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/isbn"
+        app:layout_constraintTop_toTopOf="@+id/isbn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
