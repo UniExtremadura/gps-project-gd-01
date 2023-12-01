@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android") // Agregado para habilitar el plugin de Kotlin
-    id("kotlin-kapt")   // Agregado para habilitar Kotlin Annotation Processing
+    id("com.google.devtools.ksp")   // Agregado para habilitar Kotlin Annotation Processing
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -17,12 +17,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
 
     buildTypes {
@@ -94,5 +88,6 @@ dependencies {
     val room_version = "2.5.0"
 
     implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version") // Usamos kapt en lugar de annotationProcessor
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
 }
