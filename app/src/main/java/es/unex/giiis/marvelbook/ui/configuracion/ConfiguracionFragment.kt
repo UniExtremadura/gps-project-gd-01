@@ -1,30 +1,27 @@
 package es.unex.giiis.marvelbook.ui.configuracion
 
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
 import es.unex.giiis.marvelbook.R
-import es.unex.giiis.marvelbook.database.AppDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ConfiguracionFragment : PreferenceFragmentCompat() {
 
-    private lateinit var db: AppDatabase
+    private val configuracionViewModel: ConfiguracionViewModel by viewModels { ConfiguracionViewModel.Factory }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-        db = AppDatabase.getInstance(requireContext())
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            val user = db.usuarioDAO().getUserById(arguments?.getLong("usuarioID")!!)!!
-            val emailPreference = findPreference<EditTextPreference>("email")
-            val passwordPreference = findPreference<EditTextPreference>("password")
+        configuracionViewModel.getUsuario()
+        val usuario = configuracionViewModel.user
 
-            emailPreference?.text = user.email.toString()
-            emailPreference?.summary = user.email.toString()
-            passwordPreference?.text = user.password.toString()
-            passwordPreference?.summary = user.password.toString()
-        }
+        val emailPreference = findPreference<EditTextPreference>("email")
+        val passwordPreference = findPreference<EditTextPreference>("password")
+
+        emailPreference?.text = usuario!!.email.toString()
+        emailPreference?.summary = usuario.email.toString()
+        passwordPreference?.text = usuario.password.toString()
+        passwordPreference?.summary = usuario.password.toString()
     }
 }

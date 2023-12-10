@@ -8,30 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.util.PatternsCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import es.unex.giiis.marvelbook.MainActivity
-import es.unex.giiis.marvelbook.database.AppDatabase
+import es.unex.giiis.marvelbook.MainViewModel
 import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.databinding.FragmentCuentaBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CuentaFragment : Fragment() {
 
     private var _binding: FragmentCuentaBinding? = null
-    private lateinit var db: AppDatabase
     private val binding get() = _binding!!
-    private var usuarioSesionID: Long = 0L
+    private val mainViewModel: MainViewModel by activityViewModels { MainViewModel.Factory }
+    private val cuentaViewModel: CuentaViewModel by viewModels { CuentaViewModel.Factory }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCuentaBinding.inflate(inflater, container, false)
-        db = AppDatabase.getInstance(requireContext())
-        usuarioSesionID = arguments?.getLong("usuarioID")!!
 
-        cargarInformacionUsuario(usuarioSesionID)
+        cargarInformacionUsuario()
 
         binding.botonModificarUsuario.setOnClickListener {
             modificarUsuario()
@@ -46,43 +43,38 @@ class CuentaFragment : Fragment() {
     }
 
     private fun modificarUsuario() {
-        lifecycleScope.launch(Dispatchers.IO) {
 
-            val emailNuevo = binding.emailSettings.text.toString()
-            val user = db.usuarioDAO().getUserById(usuarioSesionID)
-            val usuarioEmail = db.usuarioDAO().findByEmail(emailNuevo)
+        val emailNuevo = binding.emailSettings.text.toString()
+        val user = mainViewModel.user
+        cuentaViewModel.getUsuarioByEmail(emailNuevo)
+        val usuarioEmail = cuentaViewModel.usuarioEmail
 
-            withContext(Dispatchers.Main) {
-                if (user != null) {
-                    if (user.email.toString() == emailNuevo || usuarioEmail == null) {
+        if (user != null) {
+            if (user.email.toString() == emailNuevo || usuarioEmail == null) {
 
-                        if (validate()) {
-                            val usuario = Usuario(
-                                id = usuarioSesionID,
-                                nombre = binding.nameSetting.text.toString(),
-                                email = binding.emailSettings.text.toString(),
-                                password = binding.passwordSettings.text.toString(),
-                                monedas = user.monedas,
-                            )
+                if (validate()) {
+                    val usuario = Usuario(
+                        id = user.id,
+                        nombre = binding.nameSetting.text.toString(),
+                        email = binding.emailSettings.text.toString(),
+                        password = binding.passwordSettings.text.toString(),
+                        monedas = user.monedas,
+                    )
 
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                db.usuarioDAO().updateUsuario(usuario)
-                            }
+                    cuentaViewModel.updateUsuario(usuario, requireContext())
 
-                            Toast.makeText(
-                                requireContext(),
-                                "Se ha modificado el usuario correctamente",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            val intent = Intent(requireContext(), MainActivity::class.java)
-                            intent.putExtra("usuarioID", usuarioSesionID)
-                            startActivity(intent)
+                    mainViewModel.user = usuario
 
-                        }
-                    } else {
-                        binding.emailSettings.error = "Este email ya está registrado"
-                    }
+                    Toast.makeText(
+                        requireContext(),
+                        "Se ha modificado el usuario correctamente",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    val intent = Intent(requireContext(), MainActivity::class.java)
+                    startActivity(intent)
                 }
+            } else {
+                binding.emailSettings.error = "Este email ya está registrado"
             }
         }
     }
@@ -93,8 +85,6 @@ class CuentaFragment : Fragment() {
         result.add(validateEmail())
         result.add(validatePassword())
 
-
-
         for (i in 0 until result.size) {
             if (!result[i]) {
                 return false
@@ -102,7 +92,6 @@ class CuentaFragment : Fragment() {
         }
         return true
     }
-
 
     private fun validateNombre(): Boolean {
         val nombreModificado = binding.nameSetting.text.toString()
@@ -125,7 +114,6 @@ class CuentaFragment : Fragment() {
         }
         return true
     }
-
 
     private fun validatePassword(): Boolean {
         val password = binding.passwordSettings.text.toString()
@@ -157,18 +145,12 @@ class CuentaFragment : Fragment() {
         return false
     }
 
-    private fun cargarInformacionUsuario(usuarioID: Long) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val usuario = db.usuarioDAO().getUserById(usuarioID)
+    private fun cargarInformacionUsuario() {
+        val usuario = cuentaViewModel.getUsuario()
 
-            withContext(Dispatchers.Main) {
-                binding.nameSetting.setText(usuario?.nombre)
-                binding.emailSettings.setText(usuario?.email)
-                binding.passwordSettings.setText(usuario?.password)
-                binding.password2Settings.setText(usuario?.password)
-
-            }
-        }
+        binding.nameSetting.setText(usuario.nombre)
+        binding.emailSettings.setText(usuario.email)
+        binding.passwordSettings.setText(usuario.password)
+        binding.password2Settings.setText(usuario.password)
     }
-
 }

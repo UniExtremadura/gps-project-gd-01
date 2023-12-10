@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -26,13 +26,12 @@ import kotlinx.coroutines.withContext
 class MazoFragment : Fragment() {
 
     private var _binding: FragmentMazoBinding? = null
-    private var usuarioSesionID: Long = 0
     private lateinit var user: Usuario
     private lateinit var adapter: PersonajeMazoAdapterMazo
     private lateinit var db: AppDatabase
     private lateinit var navController: NavController
 
-    private lateinit var sharedViewModel: MazoViewModel
+    private val mazoViewModel: MazoViewModel by viewModels { MazoViewModel.Factory }
 
     private var searchMenuItem: MenuItem? = null
 
@@ -44,19 +43,14 @@ class MazoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         db = AppDatabase.getInstance(requireContext())
-        usuarioSesionID = activity?.intent?.getLongExtra("usuarioID", 0L)!!
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            user = db.usuarioDAO().getUserById(usuarioSesionID)!!
-        }
+        user = mazoViewModel.getUsuario()
 
         _binding = FragmentMazoBinding.inflate(inflater, container, false)
         navController = findNavController()
         val root: View = binding.root
 
-        sharedViewModel = ViewModelProvider(requireActivity())[MazoViewModel::class.java]
-
-        sharedViewModel.getSearchTerm().observe(viewLifecycleOwner) { term ->
+        mazoViewModel.getSearchTerm().observe(viewLifecycleOwner) { term ->
             onSearch(term)
         }
 
@@ -67,7 +61,7 @@ class MazoFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         lifecycleScope.launch(Dispatchers.IO) {
-            var personajesMazo = db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
+            var personajesMazo = db.personajeMazoDAO().getAll(user.id).toMutableList()
 
             withContext(Dispatchers.Main) {
                 adapter = PersonajeMazoAdapterMazo(
@@ -78,7 +72,7 @@ class MazoFragment : Fragment() {
                         lifecycleScope.launch(Dispatchers.IO) {
                             db.personajeMazoDAO().updatePersonajeMazo(personajeMazo)
                             personajesMazo =
-                                db.personajeMazoDAO().getAll(usuarioSesionID).toMutableList()
+                                db.personajeMazoDAO().getAll(user.id).toMutableList()
 
                             withContext(Dispatchers.Main) {
                                 adapter.updateList(personajesMazo)
@@ -88,7 +82,7 @@ class MazoFragment : Fragment() {
                     }, onClick = {
                         val action =
                             MazoDetallesFragmentDirections.actionGlobalMazoDetallesFragment(
-                                it.id, usuarioSesionID
+                                it.id, user.id
                             )
                         navController.navigate(action)
                     }
@@ -114,7 +108,7 @@ class MazoFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
-                    sharedViewModel.setSearchTerm(newText)
+                    mazoViewModel.setSearchTerm(newText)
                 }
                 return false
             }
@@ -125,7 +119,7 @@ class MazoFragment : Fragment() {
     private fun onSearch(query: String) {
         lifecycleScope.launch(Dispatchers.IO) {
 
-            val originalList = db.personajeMazoDAO().getAll(usuarioSesionID)
+            val originalList = db.personajeMazoDAO().getAll(user.id)
 
             withContext(Dispatchers.Main) {
                 val filteredList = originalList.filter { personajeMazo ->

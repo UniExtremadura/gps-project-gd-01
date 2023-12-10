@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import es.unex.giiis.marvelbook.database.AppDatabase
@@ -22,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var db: AppDatabase
     private lateinit var sharedPreferences: SharedPreferences
-
+    private val mainViewModel: MainViewModel by viewModels { MainViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                             if (usuarioLog != null) {
                                 sumarMonedas(usuarioLog)
                             }
-                            intent.putExtra("usuarioID", usuarioID)
+                            mainViewModel.refrescarUsuario(usuarioID)
                             startActivity(intent)
                         }
                     }

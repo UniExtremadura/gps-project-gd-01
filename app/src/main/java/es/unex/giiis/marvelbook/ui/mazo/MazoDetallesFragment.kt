@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -22,17 +23,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MazoDetallesFragment : Fragment() {
-    private lateinit var db: AppDatabase
 
+    private lateinit var db: AppDatabase
     private var _binding: FragmentMazoDetallesBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var navController: NavController
-
     private lateinit var personajeMazo: PersonajeMazo
-
-    private var usuarioSesionID: Long = 0
-
+    private val mazoDetallesViewModel: MazoDetallesViewModel by viewModels { MazoDetallesViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +38,6 @@ class MazoDetallesFragment : Fragment() {
         db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
         val personajeMazoID = arguments?.getLong("personajeMazoID")!!
-        usuarioSesionID = arguments?.getLong("usuarioID")!!
 
         _binding = FragmentMazoDetallesBinding.inflate(inflater, container, false)
 
@@ -67,13 +63,12 @@ class MazoDetallesFragment : Fragment() {
                 binding.botonBatalla.setOnClickListener {
                     val intent = Intent(requireContext(), BatallaActivity::class.java)
                     intent.putExtra("personajeMazoID", personajeMazo.id)
-                    intent.putExtra("usuarioSesionID", usuarioSesionID)
                     startActivity(intent)
                 }
 
                 binding.botonVender.setOnClickListener {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        val user = db.usuarioDAO().getUserById(usuarioSesionID)!!
+                        val user = mazoDetallesViewModel.getUsuario()
                         user.monedas = user.monedas?.plus(4)
                         db.usuarioDAO().updateUsuario(user)
 

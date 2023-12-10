@@ -2,6 +2,7 @@ package es.unex.giiis.marvelbook.ui.tienda
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.database.AppDatabase
@@ -19,13 +20,15 @@ class SobreActivity : AppCompatActivity() {
     private var usuarioSesionID: Long = 0
     private lateinit var adapter: PersonajeMazoAdapterSobre
     private lateinit var db: AppDatabase
+    private val sobreViewModel: SobreViewModel by viewModels { SobreViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySobreBinding.inflate(layoutInflater)
         setContentView(binding.root)
         db = AppDatabase.getInstance(this)
-        usuarioSesionID = intent.getLongExtra("usuarioID", 0L)
+
+        usuarioSesionID = sobreViewModel.getUsuario().id
 
         binding.bGuardarMazo.setOnClickListener {
             super.onBackPressed()

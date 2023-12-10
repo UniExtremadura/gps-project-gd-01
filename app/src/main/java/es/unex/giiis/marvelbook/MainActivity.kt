@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuPopupHelper
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     internal lateinit var binding: ActivityMainBinding
     private var usuarioSesionID: Long = 0L
+    private val mainViewModel: MainViewModel by viewModels { MainViewModel.Factory }
 
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as
@@ -38,11 +40,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        usuarioSesionID = intent.getLongExtra("usuarioID", 0L)
+        mainViewModel.getUsuario()
 
         setUpUI()
     }
-
 
     private fun setUpUI() {
         binding.navView.setupWithNavController(navController)

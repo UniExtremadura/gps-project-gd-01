@@ -4,12 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.lifecycleScope
 import es.unex.giiis.marvelbook.databinding.ActivityRegisterBinding
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.Usuario
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,6 +18,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var db: AppDatabase
+    private val mainViewModel: MainViewModel by viewModels { MainViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,6 @@ class RegisterActivity : AppCompatActivity() {
         binding.botonRegistro.setOnClickListener{
 
             if (validate()) {
-
 
                 lifecycleScope.launch(Dispatchers.IO) {
 
@@ -51,12 +51,13 @@ class RegisterActivity : AppCompatActivity() {
                         db.usuarioDAO().insertarUsuario(usuario)
                         val userID = db.usuarioDAO().findByEmail(usuario.email)?.id
 
+
                         // Cambiar al hilo principal para mostrar el Toast y navegar a otra actividad
                         withContext(Dispatchers.Main) {
                             val context = this@RegisterActivity
                             Toast.makeText(applicationContext, "Se ha registrado correctamente", Toast.LENGTH_LONG).show()
                             val intent =  Intent(context, MainActivity::class.java)
-                            intent.putExtra("usuarioID", userID)
+                            mainViewModel.refrescarUsuario(userID!!)
                             startActivity(intent)
                         }
                     }

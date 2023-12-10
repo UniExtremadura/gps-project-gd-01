@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.PersonajeMazo
+import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.databinding.ActivityBatallaBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +20,9 @@ class BatallaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBatallaBinding
     private lateinit var db: AppDatabase
-    private var usuarioSesionID: Long = 0L
+    private lateinit var user: Usuario
+    private val batallaViewModel: BatallaViewModel by viewModels { BatallaViewModel.Factory }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,7 +32,7 @@ class BatallaActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(applicationContext)
 
         val personaje1ID = intent.getLongExtra("personajeMazoID", 0L)
-        usuarioSesionID = intent.getLongExtra("usuarioSesionID", 0L)
+        user = batallaViewModel.getUsuario()
 
         lifecycleScope.launch(Dispatchers.IO) {
             val personaje1 = db.personajeMazoDAO().getById(personaje1ID)
@@ -44,7 +48,6 @@ class BatallaActivity : AppCompatActivity() {
                 binding.imagenFight.setOnClickListener {
                     val intent = Intent(this@BatallaActivity, PeleaResultadoActivity::class.java)
                     intent.putExtra("ganador", ganador)
-                    intent.putExtra("usuarioSesionID", usuarioSesionID)
                     intent.putExtra("personajeID", personaje1ID)
                     startActivity(intent)
                 }
@@ -95,19 +98,16 @@ class BatallaActivity : AppCompatActivity() {
     private fun gestionarBatalla(personaje1: PersonajeMazo, personaje2: PersonajeMazo): Boolean {
         val ganador = personaje1.rating!! >= personaje2.rating!!
 
-        val user = db.usuarioDAO().getUserById(usuarioSesionID)
-        if (user != null) {
-            if (!ganador) {
-                if (user.monedas!! < 5) {
-                    user.monedas = 0
-                } else {
-                    user.monedas = user.monedas!! - 5
-                }
+        if (!ganador) {
+            if (user.monedas!! < 5) {
+                user.monedas = 0
             } else {
-                user.monedas = user.monedas!! + 3
+                user.monedas = user.monedas!! - 5
             }
-            db.usuarioDAO().updateUsuario(user)
+        } else {
+            user.monedas = user.monedas!! + 3
         }
+        db.usuarioDAO().updateUsuario(user)
         return ganador
     }
 

@@ -15,7 +15,6 @@ import kotlinx.coroutines.withContext
 
 class PeleaResultadoActivity : AppCompatActivity() {
 
-    private var usuarioSesionID: Long = 0L
     private var personajeID: Long = 0L
     private var ganador: Boolean = false
     private lateinit var binding: ActivityPeleaResultadoBinding
@@ -29,7 +28,6 @@ class PeleaResultadoActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(applicationContext)
 
         personajeID = intent.getLongExtra("personajeID", 0L)
-        usuarioSesionID = intent.getLongExtra("usuarioSesionID", 0L)
         ganador = intent.getBooleanExtra("ganador", false)
 
         if(ganador) {
@@ -53,7 +51,6 @@ class PeleaResultadoActivity : AppCompatActivity() {
 
                     botonMazo.setOnClickListener {
                         val intent = Intent(this@PeleaResultadoActivity, MainActivity::class.java)
-                        intent.putExtra("usuarioID", usuarioSesionID)
                         startActivity(intent)
                     }
                 }

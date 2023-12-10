@@ -1,6 +1,5 @@
-package es.unex.giiis.marvelbook.ui.mazo
+package es.unex.giiis.marvelbook.ui.tienda
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
@@ -8,17 +7,9 @@ import es.unex.giiis.marvelbook.MarvelApplication
 import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.utils.Repository
 
-class MazoViewModel(
+class SobreViewModel(
     private val repository: Repository
 ) : ViewModel() {
-
-    private val searchTerm = MutableLiveData<String>()
-
-    fun setSearchTerm(term: String) {
-        searchTerm.value = term
-    }
-
-    fun getSearchTerm() = searchTerm
 
     fun getUsuario(): Usuario {
         return repository.usuario!!
@@ -34,7 +25,7 @@ class MazoViewModel(
             ): T {
                 val application = checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
 
-                return MazoViewModel(
+                return SobreViewModel(
                     (application as MarvelApplication).appContainer.repository,
 
                     ) as T

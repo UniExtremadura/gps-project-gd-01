@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import es.unex.giiis.marvelbook.database.AppDatabase
@@ -15,17 +16,14 @@ import es.unex.giiis.marvelbook.databinding.FragmentTiendaBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class TiendaFragment : Fragment() {
 
     private var _binding: FragmentTiendaBinding? = null
-
-    private lateinit var user:Usuario
+    private lateinit var user: Usuario
     private val binding get() = _binding!!
-
     private lateinit var db: AppDatabase
-
     private lateinit var navController : androidx.navigation.NavController
+    private val tiendaViewModel: TiendaViewModel by viewModels { TiendaViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,13 +31,8 @@ class TiendaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         navController = findNavController()
-        val usuarioID = activity?.intent?.getLongExtra("usuarioID", 0L)
+        user = tiendaViewModel.getUsuario()
         db = AppDatabase.getInstance(requireContext())
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            user = db.usuarioDAO().getUserById(usuarioID!!)!!
-        }
-
 
         _binding = FragmentTiendaBinding.inflate(inflater, container, false)
         binding.coinAmmountUsuario.text = user.monedas.toString()
@@ -68,7 +61,6 @@ class TiendaFragment : Fragment() {
                 db.usuarioDAO().updateUsuario(user)
             }
             val intent = Intent(requireContext(), SobreActivity::class.java)
-            intent.putExtra("usuarioID", user.id)
             intent.putExtra("sobreTipo", 1)
             startActivity(intent)
         } else {
@@ -85,7 +77,6 @@ class TiendaFragment : Fragment() {
                 db.usuarioDAO().updateUsuario(user)
             }
             val intent = Intent(requireContext(), SobreActivity::class.java)
-            intent.putExtra("usuarioID", user.id)
             intent.putExtra("sobreTipo", 2)
             startActivity(intent)
         } else {
@@ -93,13 +84,11 @@ class TiendaFragment : Fragment() {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch(Dispatchers.IO) {
-            val usuarioID = activity?.intent?.getLongExtra("usuarioID", 0L)
-            user = db.usuarioDAO().getUserById(usuarioID!!)!!
-        }
+
+        user = tiendaViewModel.getUsuario()
+
         binding.coinAmmountUsuario.text = user.monedas.toString()
     }
 
@@ -107,9 +96,5 @@ class TiendaFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
-
 }
 

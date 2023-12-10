@@ -12,19 +12,36 @@ import es.unex.giiis.marvelbook.database.Creador
 import es.unex.giiis.marvelbook.database.CreadorDAO
 import es.unex.giiis.marvelbook.database.Personaje
 import es.unex.giiis.marvelbook.database.PersonajeDAO
+import es.unex.giiis.marvelbook.database.Usuario
+import es.unex.giiis.marvelbook.database.UsuarioDAO
 
 class Repository(
     private val personajeDAO: PersonajeDAO,
     private val comicDAO: ComicDAO,
     private val creadorDAO: CreadorDAO,
+    private val usuarioDAO: UsuarioDAO,
     private val marvelAPI: MarvelAPI,
 ) {
     val personajes = personajeDAO.getAll1()
     var comics = comicDAO.getAll1()
     val creador = creadorDAO.getAll1()
+    var usuario: Usuario? = null
+
+    fun setUsuario(id: Long) {
+        usuario = usuarioDAO.getUserById(id)
+    }
+
+    fun findByEmail(email: String): Usuario? {
+        return usuarioDAO.findByEmail(email)
+    }
 
     fun getAllCharacters(): List<Personaje>{
         return personajeDAO.getAll()
+    }
+
+    fun updateUsuario(usuario: Usuario) {
+        usuarioDAO.updateUsuario(usuario)
+        this.usuario = usuario
     }
 
     fun getAllComics(): List<Comic>{
