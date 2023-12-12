@@ -78,8 +78,6 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
-    implementation("com.squareup.picasso:picasso:2.71828")
-
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
@@ -96,13 +94,12 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:2.13.0")
 
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
-
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
-
 
     val room_version = "2.5.0"
 
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version") // Usamos kapt en lugar de annotationProcessor
 }
+
