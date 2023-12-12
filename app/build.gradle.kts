@@ -77,7 +77,6 @@ dependencies {
 
     implementation("androidx.preference:preference-ktx:1.2.0")
 
-
     implementation ("com.google.android.material:material:1.4.0")
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
 
@@ -86,6 +85,13 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
+    androidTestImplementation("androidx.test:runner1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("org.mockito:mockito-core:2.22.0")
+    androidTestImplementation("org.mockito:mockito-android:2.18.3")
+    testImplementation("org.mockito:mockito-core:2.22.0")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("org.mockito:mockito-inline:2.13.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
