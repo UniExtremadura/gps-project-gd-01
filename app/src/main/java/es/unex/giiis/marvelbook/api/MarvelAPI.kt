@@ -28,7 +28,6 @@ fun getNetworkService() = service
 
 interface MarvelAPI {
 
-
     @GET("comics?ts=1&apikey=320e1b5bed8c8bdb3aa5366857f05023&hash=6bcb692a16cd638fd8dad21766b4fac7")
     suspend fun getComics(
         @Query("offset") offset: Int
