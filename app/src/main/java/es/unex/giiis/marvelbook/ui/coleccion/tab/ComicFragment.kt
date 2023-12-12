@@ -101,7 +101,7 @@ class ComicFragment : Fragment() {
     private suspend fun fetchShowsComics() {
         try {
 
-            for (i in 0..1000 step 20) {
+            for (i in 0..100 step 20) {
 
                 for (aux in getNetworkService().getComics(i).data?.results ?: listOf()) {
                     if(db.comicDAO().obtenerComic(aux.toComic().id).isEmpty()){
