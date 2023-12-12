@@ -102,4 +102,3 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version") // Usamos kapt en lugar de annotationProcessor
 }
-
