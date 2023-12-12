@@ -91,6 +91,15 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("org.mockito:mockito-core:2.22.0")
+    androidTestImplementation("org.mockito:mockito-android:2.18.3")
+    testImplementation("org.mockito:mockito-core:2.22.0")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("org.mockito:mockito-inline:2.13.0")
+
+
     val room_version = "2.5.0"
 
     implementation("androidx.room:room-runtime:$room_version")
