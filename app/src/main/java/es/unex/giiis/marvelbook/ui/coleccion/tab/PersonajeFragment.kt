@@ -104,7 +104,7 @@ class PersonajeFragment : Fragment(){
     private suspend fun fetchShows() {
         try {
 
-            for (i in 0..1000 step 20) {
+            for (i in 0..100 step 20) {
 
                 for (aux in getNetworkService().getPersonajes(i).data?.results ?: listOf()) {
                     db.personajeDAO().insertarPersonaje(aux.toPersonaje())

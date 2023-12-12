@@ -1,9 +1,9 @@
 package es.unex.giiis.marvelbook
 
+
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -14,20 +14,21 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
+import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CrearBatallaTest {
+class LoginActivityTest {
 
     @Rule
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(LoginActivity::class.java)
 
     @Test
-    fun batallaActivityTest() {
+    fun loginActivityTest() {
         val appCompatTextView = onView(
             allOf(
                 withId(R.id.crearCuenta), withText("¿No tienes cuenta? ¡Regístrate!"),
@@ -56,7 +57,7 @@ class CrearBatallaTest {
                 isDisplayed()
             )
         )
-        appCompatEditText.perform(replaceText("Diego"), closeSoftKeyboard())
+        appCompatEditText.perform(replaceText("alberto"), closeSoftKeyboard())
 
         val appCompatEditText2 = onView(
             allOf(
@@ -71,7 +72,7 @@ class CrearBatallaTest {
                 isDisplayed()
             )
         )
-        appCompatEditText2.perform(replaceText("diego@gmail.com"), closeSoftKeyboard())
+        appCompatEditText2.perform(replaceText("alberto@gmail.com"), closeSoftKeyboard())
 
         val appCompatEditText3 = onView(
             allOf(
@@ -86,7 +87,7 @@ class CrearBatallaTest {
                 isDisplayed()
             )
         )
-        appCompatEditText3.perform(replaceText("Diego01"), closeSoftKeyboard())
+        appCompatEditText3.perform(replaceText("alberto123"), closeSoftKeyboard())
 
         val appCompatEditText4 = onView(
             allOf(
@@ -101,25 +102,7 @@ class CrearBatallaTest {
                 isDisplayed()
             )
         )
-        appCompatEditText4.perform(replaceText("Diego01"), closeSoftKeyboard())
-
-        val editText = onView(
-            allOf(
-                withId(R.id.nombreRegistro), withText("Diego"),
-                withParent(withParent(withId(android.R.id.content))),
-                isDisplayed()
-            )
-        )
-        editText.check(matches(withText("Diego")))
-
-        val editText2 = onView(
-            allOf(
-                withId(R.id.emailRegistro), withText("diego@gmail.com"),
-                withParent(withParent(withId(android.R.id.content))),
-                isDisplayed()
-            )
-        )
-        editText2.check(matches(withText("diego@gmail.com")))
+        appCompatEditText4.perform(replaceText("alberto123"), closeSoftKeyboard())
 
         val appCompatButton = onView(
             allOf(
@@ -136,59 +119,27 @@ class CrearBatallaTest {
         )
         appCompatButton.perform(click())
 
-        Thread.sleep(25000)
-
-
-        val bottomNavigationItemView = onView(
+        val actionMenuItemView = onView(
             allOf(
-                withId(R.id.navigation_tienda), withContentDescription("Tienda"),
+                withId(R.id.action_settings), withContentDescription("Ajustes"),
                 childAtPosition(
                     childAtPosition(
-                        withId(R.id.nav_view),
-                        0
+                        withId(R.id.toolbar),
+                        1
                     ),
-                    2
+                    1
                 ),
                 isDisplayed()
             )
         )
-        bottomNavigationItemView.perform(click())
+        actionMenuItemView.perform(click())
 
-        val appCompatImageView = onView(
+        val appCompatTextView2 = onView(
             allOf(
-                withId(R.id.SobreBasico), withContentDescription("10"),
+                withId(androidx.core.R.id.title), withText("Cerrar sesión\n"),
                 childAtPosition(
                     childAtPosition(
-                        withId(R.id.nav_host_fragment_activity_main),
-                        0
-                    ),
-                    8
-                ),
-                isDisplayed()
-            )
-        )
-        appCompatImageView.perform(click())
-
-        val viewGroup = onView(
-            allOf(
-                withId(R.id.cl_item_sobre),
-                withParent(
-                    allOf(
-                        withId(R.id.cl_items_sobre_rv),
-                        withParent(withId(R.id.listadoSobre))
-                    )
-                ),
-                isDisplayed()
-            )
-        )
-        viewGroup.check(matches(isDisplayed()))
-
-        val appCompatButton2 = onView(
-            allOf(
-                withId(R.id.bGuardarMazo), withText("¡CONTINUAR...!"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(android.R.id.content),
+                        withId(androidx.appcompat.R.id.content),
                         0
                     ),
                     0
@@ -196,128 +147,133 @@ class CrearBatallaTest {
                 isDisplayed()
             )
         )
-        appCompatButton2.perform(click())
+        appCompatTextView2.perform(click())
 
-        pressBack()
-
-        val bottomNavigationItemView2 = onView(
+        val appCompatEditText5 = onView(
             allOf(
-                withId(R.id.navigation_mazo), withContentDescription("Mazo"),
+                withId(R.id.emailLogin),
                 childAtPosition(
                     childAtPosition(
-                        withId(R.id.nav_view),
+                        withId(android.R.id.content),
                         0
                     ),
-                    1
+                    2
                 ),
                 isDisplayed()
             )
         )
-        bottomNavigationItemView2.perform(click())
+        appCompatEditText5.perform(replaceText("alberto@gmail.com"), closeSoftKeyboard())
 
-        val viewGroup2 = onView(
+        val appCompatEditText6 = onView(
             allOf(
-                withId(R.id.cl_item_sobre),
+                withId(R.id.passwordLogin),
+                childAtPosition(
+                    childAtPosition(
+                        withId(android.R.id.content),
+                        0
+                    ),
+                    3
+                ),
+                isDisplayed()
+            )
+        )
+        appCompatEditText6.perform(replaceText("alberto123"), closeSoftKeyboard())
+
+        val appCompatButton2 = onView(
+            allOf(
+                withId(R.id.botonInicio), withText("Iniciar sesión"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(android.R.id.content),
+                        0
+                    ),
+                    4
+                ),
+                isDisplayed()
+            )
+        )
+        appCompatButton2.perform(click())
+
+        val frameLayout = onView(
+            allOf(
+                withId(R.id.nav_view),
                 withParent(
                     allOf(
-                        withId(R.id.cl_items_sobre_rv),
-                        withParent(withId(R.id.listaMazo))
+                        withId(R.id.container),
+                        withParent(withId(android.R.id.content))
                     )
                 ),
                 isDisplayed()
             )
         )
-        viewGroup2.check(matches(isDisplayed()))
-
-        val constraintLayout = onView(
-            allOf(
-                withId(R.id.cl_item_sobre),
-                childAtPosition(
-                    allOf(
-                        withId(R.id.cl_items_sobre_rv),
-                        childAtPosition(
-                            withId(R.id.listaMazo),
-                            0
-                        )
-                    ),
-                    1
-                ),
-                isDisplayed()
-            )
-        )
-        constraintLayout.perform(click())
-
-        val appCompatButton3 = onView(
-            allOf(
-                withId(R.id.botonBatalla), withText("¡Batalla!"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.nav_host_fragment_activity_main),
-                        0
-                    ),
-                    11
-                ),
-                isDisplayed()
-            )
-        )
-        appCompatButton3.perform(click())
+        frameLayout.check(matches(isDisplayed()))
 
         val imageView = onView(
             allOf(
-                withId(R.id.imagenPersonaje1), withContentDescription("player1"),
-                withParent(withParent(withId(android.R.id.content))),
+                withId(com.google.android.material.R.id.navigation_bar_item_icon_view),
+                withParent(
+                    allOf(
+                        withId(com.google.android.material.R.id.navigation_bar_item_icon_container),
+                        withParent(
+                            allOf(
+                                withId(R.id.navigation_coleccion),
+                                withContentDescription("Colección")
+                            )
+                        )
+                    )
+                ),
                 isDisplayed()
             )
         )
         imageView.check(matches(isDisplayed()))
 
-        val imageView2 = onView(
+        val textView = onView(
             allOf(
-                withId(R.id.imagenPersonaje2), withContentDescription("player1"),
-                withParent(withParent(withId(android.R.id.content))),
-                isDisplayed()
-            )
-        )
-        imageView2.check(matches(isDisplayed()))
-
-        val appCompatImageView2 = onView(
-            allOf(
-                withId(R.id.imagenFight), withContentDescription("Logo de registro marvel"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(android.R.id.content),
-                        0
-                    ),
-                    14
+                withId(com.google.android.material.R.id.navigation_bar_item_large_label_view),
+                withText("Colección"),
+                withParent(
+                    allOf(
+                        withId(com.google.android.material.R.id.navigation_bar_item_labels_group),
+                        withParent(
+                            allOf(
+                                withId(R.id.navigation_coleccion),
+                                withContentDescription("Colección")
+                            )
+                        )
+                    )
                 ),
                 isDisplayed()
             )
         )
-        appCompatImageView2.perform(click())
+        textView.check(matches(withText("Colección")))
 
-        val imageView3 = onView(
+        val textView2 = onView(
             allOf(
-                withId(R.id.imagenPersonajeGanador), withContentDescription("Foto del personaje"),
-                withParent(withParent(withId(android.R.id.content))),
-                isDisplayed()
-            )
-        )
-        imageView3.check(matches(isDisplayed()))
-
-        val appCompatButton4 = onView(
-            allOf(
-                withId(R.id.botonMazo), withText("CONTINUAR"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(android.R.id.content),
-                        0
-                    ),
-                    6
+                withText("PERSONAJES"),
+                withParent(
+                    allOf(
+                        withContentDescription("PERSONAJES"),
+                        withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))
+                    )
                 ),
                 isDisplayed()
             )
         )
-        appCompatButton4.perform(click())
+        textView2.check(matches(withText("PERSONAJES")))
+
+        val textView3 = onView(
+            allOf(
+                withText("PERSONAJES"),
+                withParent(
+                    allOf(
+                        withContentDescription("PERSONAJES"),
+                        withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))
+                    )
+                ),
+                isDisplayed()
+            )
+        )
+        textView3.check(matches(withText("PERSONAJES")))
     }
 
     private fun childAtPosition(
