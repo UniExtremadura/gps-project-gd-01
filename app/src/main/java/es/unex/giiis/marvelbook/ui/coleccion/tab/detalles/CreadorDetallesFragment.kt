@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +18,6 @@ import es.unex.giiis.marvelbook.database.Comic
 import es.unex.giiis.marvelbook.database.Creador
 import es.unex.giiis.marvelbook.databinding.FragmentCreadorDetallesBinding
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class CreadorDetallesFragment : Fragment() {
@@ -32,9 +29,10 @@ class CreadorDetallesFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private lateinit var creador: Creador
     private lateinit var adapter: CreadorComicsAdapter
-    private var creadorID: Long = 0L
+
+    private val viewModel: CreadorDetallesViewModel by viewModels { CreadorDetallesViewModel.Factory }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,60 +49,54 @@ class CreadorDetallesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        creadorID = arguments?.getLong("creadorID")!!
-        lifecycleScope.launch(Dispatchers.IO) {
-            creador = db.creadorDAO().getByID(creadorID)
+        viewModel.creadorID = arguments?.getLong("creadorID")!!
+        suscribeUI()
 
-            withContext(Dispatchers.Main) {
-                requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
-                    title = creador.name
-                }
+    }
 
-                with(binding) {
-                    nombreCreadorDetalles.text = creador.name
-                    Glide.with(foto.context)
-                        .load(creador.imagen.toString())
-                        .into(foto)
-                }
-                setUpRecyclerView()
+    private fun selectVisibility(creador: Creador){
+        requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
+
+            title = creador.name
+            with(binding) {
+
+                Glide.with(foto.context)
+                    .load(creador.imagen.toString())
+                    .into(foto)
+            }
+
+            viewModel.listComic.observe(viewLifecycleOwner) { listComic ->
+                messageApariciones(listComic)
             }
         }
     }
+    private fun suscribeUI() {
+        viewModel.creadorDetalle.observe(viewLifecycleOwner) { creador ->
+            creador?.let{ selectVisibility(creador) }
+        }
+    }
 
-    private fun setUpRecyclerView() {
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            val listComicsID = creador.comics
-            val comicsList = mutableListOf<Comic>()
-            var numComic = 0
-            if (listComicsID != null) {
-
-                for(aux in listComicsID){
-                    var comic = db.comicDAO().getById(aux.toLong())
-                    if(comic!= null){
-                        comicsList.add(comic)
-                        numComic++
-                    }
-                }
+    private fun messageApariciones(listComic : MutableList<Comic>){
+        if (listComic.isEmpty()) {
+            with(binding) {
+                apariciones.text = getString(R.string.valorNuloApariciones)
             }
-
-            withContext(Dispatchers.Main) {
-                if(numComic == 0){
-                    with(binding){
-                        apariciones.text = getString(R.string.valorNuloApariciones)
-                    }
-                }
-                adapter = CreadorComicsAdapter(comics = comicsList,
-                )
-                with(binding) {
-                    creadorComicsList.layoutManager = LinearLayoutManager(context)
-                    creadorComicsList.adapter = adapter
-                }
+        } else {
+            with(binding) {
+                apariciones.text = ""
             }
         }
+        adapter = CreadorComicsAdapter(
+            comics = listComic
+        )
+        setUpRecyclerView()
+    }
 
-
-
+    private fun setUpRecyclerView() {
+        with(binding) {
+            creadorComicsList.layoutManager = LinearLayoutManager(context)
+            creadorComicsList.adapter = adapter
+        }
     }
 
 }

@@ -39,6 +39,18 @@ class Repository(
         return personajeDAO.getAll()
     }
 
+    fun getCharacterById(id:Long): Personaje?{
+        return personajeDAO.getByID(id)
+    }
+
+    fun getComicById(id:Long): Comic?{
+        return comicDAO.getById(id)
+    }
+
+    fun getCreatorById(id:Long): Creador?{
+        return creadorDAO.getByID(id)
+    }
+
     fun updateUsuario(usuario: Usuario) {
         usuarioDAO.updateUsuario(usuario)
         this.usuario = usuario
@@ -54,7 +66,7 @@ class Repository(
 
     private suspend fun fetchCharacters() {
         try {
-            for (i in 0..100 step 20) {
+            for (i in 0..1000 step 20) {
                 for (aux in marvelAPI.getPersonajes(i).data?.results ?: listOf()) {
                     personajeDAO.insertarPersonaje(aux.toPersonaje())
                 }
@@ -72,7 +84,7 @@ class Repository(
 
     private suspend fun fetchComics() {
         try {
-            for (i in 0..100 step 20) {
+            for (i in 0..1000 step 20) {
                 for (aux in marvelAPI.getComics(i).data?.results ?: listOf()) {
                     comicDAO.insertarComic(aux.toComic())
                 }
@@ -90,7 +102,7 @@ class Repository(
 
     private suspend fun fetchCreador() {
         try {
-            for (i in 0..100 step 20) {
+            for (i in 0..1000 step 20) {
                 for (aux in marvelAPI.getCreadores(i).data?.results ?: listOf()) {
                     creadorDAO.insertarCreador(aux.toCreador())
                 }

@@ -1,25 +1,22 @@
 package es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.comicListado
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.adapter.ComicPersonajesAdapter
 import es.unex.giiis.marvelbook.database.AppDatabase
-import es.unex.giiis.marvelbook.database.Comic
 import es.unex.giiis.marvelbook.database.Personaje
 import es.unex.giiis.marvelbook.databinding.FragmentComicDetallesPersonajesBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
+import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.ComicDetallesViewModel
 class ComicDetallesPersonajesFragment : Fragment() {
     private lateinit var db: AppDatabase
 
@@ -27,14 +24,15 @@ class ComicDetallesPersonajesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
-    private var comicID: Long = 0L
-    private lateinit var comic: Comic
     private lateinit var adapter: ComicPersonajesAdapter
+
+    private val viewModel: ComicDetallesViewModel by viewModels { ComicDetallesViewModel.Factory }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
 
@@ -49,51 +47,44 @@ class ComicDetallesPersonajesFragment : Fragment() {
         requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
             title = "Listado de personajes"
         }
+        viewModel.comicID = arguments?.getLong("comicID")!!
+        suscribeUI()
+    }
+
+    private fun suscribeUI() {
+        viewModel.listCharacter.observe(viewLifecycleOwner) { listPersonaje ->
+            selectVisibility(listPersonaje)
+        }
+    }
+
+    private fun selectVisibility(listPersonaje : MutableList<Personaje>){
+        if(listPersonaje.isEmpty()) {
+            Log.d("PersonajeDetalles", listPersonaje.size.toString())
+            with(binding) {
+                comicPersonajesList.visibility = View.GONE
+                aparicionesPersonaje.text = getString(R.string.valorNuloApariciones)
+                aparicionesPersonaje.visibility = View.VISIBLE
+
+            }}
+        else{
+
+            Log.d("PersonajeDetalles", listPersonaje.size.toString())
+            with(binding) {
+                comicPersonajesList.visibility = View.VISIBLE
+                aparicionesPersonaje.visibility = View.GONE
+            }
+
+        }
+        adapter = ComicPersonajesAdapter(
+            personajes = listPersonaje,
+        )
         setUpRecyclerView()
     }
 
     private fun setUpRecyclerView() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            comicID = arguments?.getLong("comicID")!!
-            comic = db.comicDAO().getById(comicID)
-            val listPersonajesID = comic.characters
-            val personajesList = mutableListOf<Personaje>()
-            var numPersonajes = 0
-            if (listPersonajesID != null) {
-                for(aux in listPersonajesID){
-                    var personaje = db.personajeDAO().getByID(aux.toLong())
-                    if(personaje!= null){
-                        personajesList.add(personaje)
-                        numPersonajes++
-                    }
-                }
-            }
-
-            withContext(Dispatchers.Main) {
-                if(numPersonajes == 0) {
-                    with(binding) {
-                        comicPersonajesList.visibility = View.GONE
-                        aparicionesPersonaje.text = getString(R.string.valorNuloApariciones)
-                        aparicionesPersonaje.visibility = View.VISIBLE
-
-                    }}
-                else{
-                    with(binding) {
-                        comicPersonajesList.visibility = View.VISIBLE
-                        aparicionesPersonaje.visibility = View.GONE
-                    }
-
-                }
-                adapter = ComicPersonajesAdapter(personajes = personajesList,
-                )
-                with(binding) {
-                    comicPersonajesList.layoutManager = LinearLayoutManager(context)
-                    comicPersonajesList.adapter = adapter
-                }
-            }
+        with(binding) {
+            comicPersonajesList.layoutManager = LinearLayoutManager(context)
+            comicPersonajesList.adapter = adapter
         }
-
-
-
     }
 }
