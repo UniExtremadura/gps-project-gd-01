@@ -1,17 +1,16 @@
-package es.unex.giiis.marvelbook.ui.mazo
+package es.unex.giiis.marvelbook.database
 
-import es.unex.giiis.marvelbook.database.PersonajeMazo
 import org.junit.Assert.*
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 class PersonajeMazoTest {
     private lateinit var personajeMazo: PersonajeMazo
+
     @Before
     fun setUp() {
-        personajeMazo=PersonajeMazo(1, 0L, "Spiderman", "imagen", 43, 87, 45, 44, true)
+        personajeMazo = PersonajeMazo(1, 0L, "Spiderman", "imagen", 43, 87, 45, 44, true)
     }
 
     @After
@@ -60,7 +59,7 @@ class PersonajeMazoTest {
 
     @Test
     fun setRating() {
-        personajeMazo.rating=45
+        personajeMazo.rating = 45
         assertEquals(45, personajeMazo.rating)
     }
 
@@ -71,7 +70,7 @@ class PersonajeMazoTest {
 
     @Test
     fun setFav() {
-        personajeMazo.fav=false
+        personajeMazo.fav = false
         assertEquals(false, personajeMazo.fav)
     }
 }
