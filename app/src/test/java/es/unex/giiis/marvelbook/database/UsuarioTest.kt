@@ -1,17 +1,15 @@
-package es.unex.giiis.marvelbook
+package es.unex.giiis.marvelbook.database
 
-import es.unex.giiis.marvelbook.database.Usuario
 import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Test
 
 class UsuarioTest {
-    private lateinit var usuario : Usuario
+    private lateinit var usuario: Usuario
+
     @Before
     fun setUp() {
-    usuario = Usuario(1, "grupo1", "grupo1@email.com", "gD01", 33)
-
+        usuario = Usuario(1, "grupo1", "grupo1@email.com", "gD01", 33)
     }
 
     @Test
