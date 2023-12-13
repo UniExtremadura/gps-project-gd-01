@@ -78,8 +78,6 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
-    implementation("com.squareup.picasso:picasso:2.71828")
-
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
@@ -87,7 +85,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    // TESTING
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("org.mockito:mockito-core:2.22.0")
@@ -96,13 +93,9 @@ dependencies {
     androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
     testImplementation("org.mockito:mockito-inline:2.13.0")
 
-    // Opción 1: probar llamadas a Retrofit - opción recomendada
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.1")
-
-    /* Para comprobar los navigation drawer, datepicker, etc... con espresso */
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
-    // END TESTING
 
     val room_version = "2.5.0"
 
