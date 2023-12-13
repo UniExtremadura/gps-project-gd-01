@@ -44,6 +44,11 @@ class Repository(
         this.usuario = usuario
     }
 
+    fun createUsuario(usuario: Usuario) {
+        usuarioDAO.insertarUsuario(usuario)
+        this.usuario = usuario
+    }
+
     fun getAllComics(): List<Comic>{
         return comicDAO.getAll()
     }
