@@ -12,6 +12,8 @@ import es.unex.giiis.marvelbook.database.Creador
 import es.unex.giiis.marvelbook.database.CreadorDAO
 import es.unex.giiis.marvelbook.database.Personaje
 import es.unex.giiis.marvelbook.database.PersonajeDAO
+import es.unex.giiis.marvelbook.database.PersonajeMazo
+import es.unex.giiis.marvelbook.database.PersonajeMazoDAO
 import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.database.UsuarioDAO
 
@@ -20,6 +22,7 @@ class Repository(
     private val comicDAO: ComicDAO,
     private val creadorDAO: CreadorDAO,
     private val usuarioDAO: UsuarioDAO,
+    private val personajeMazoDAO: PersonajeMazoDAO,
     private val marvelAPI: MarvelAPI,
 ) {
     val personajes = personajeDAO.getAll1()
@@ -35,10 +38,6 @@ class Repository(
         return usuarioDAO.findByEmail(email)
     }
 
-    fun getAllCharacters(): List<Personaje>{
-        return personajeDAO.getAll()
-    }
-
     fun updateUsuario(usuario: Usuario) {
         usuarioDAO.updateUsuario(usuario)
         this.usuario = usuario
@@ -47,6 +46,18 @@ class Repository(
     fun createUsuario(usuario: Usuario) {
         usuarioDAO.insertarUsuario(usuario)
         this.usuario = usuario
+    }
+
+    fun getPersonajeMazoByID(id: Long): PersonajeMazo {
+        return personajeMazoDAO.getById(id)
+    }
+
+    fun savePersonajeMazo(personajeMazo: PersonajeMazo) {
+        return personajeMazoDAO.insertarPersonajeMazo(personajeMazo)
+    }
+
+    fun getAllCharacters(): List<Personaje>{
+        return personajeDAO.getAll()
     }
 
     fun getAllComics(): List<Comic>{
