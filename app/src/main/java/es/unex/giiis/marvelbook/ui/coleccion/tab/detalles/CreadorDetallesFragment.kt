@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.adapter.CreadorComicsAdapter
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.Comic
 import es.unex.giiis.marvelbook.database.Creador
 import es.unex.giiis.marvelbook.databinding.FragmentCreadorDetallesBinding
@@ -21,8 +20,6 @@ import es.unex.giiis.marvelbook.databinding.FragmentCreadorDetallesBinding
 
 
 class CreadorDetallesFragment : Fragment() {
-
-    private lateinit var db: AppDatabase
 
     private var _binding: FragmentCreadorDetallesBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +35,6 @@ class CreadorDetallesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
 
         _binding = FragmentCreadorDetallesBinding.inflate(inflater, container, false)

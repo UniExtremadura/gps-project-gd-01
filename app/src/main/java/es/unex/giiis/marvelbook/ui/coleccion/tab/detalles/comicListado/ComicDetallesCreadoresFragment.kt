@@ -13,13 +13,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.adapter.ComicCreadoresAdapter
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.Creador
 import es.unex.giiis.marvelbook.databinding.FragmentComicDetallesCreadoresBinding
 import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.ComicDetallesViewModel
 
 class ComicDetallesCreadoresFragment : Fragment() {
-    private lateinit var db: AppDatabase
 
     private var _binding: FragmentComicDetallesCreadoresBinding? = null
     private val binding get() = _binding!!
@@ -34,7 +32,6 @@ class ComicDetallesCreadoresFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
 
         _binding = FragmentComicDetallesCreadoresBinding.inflate(inflater, container, false)

@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import es.unex.giiis.marvelbook.R
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.databinding.FragmentColeccionBinding
 
 
@@ -22,7 +21,6 @@ import es.unex.giiis.marvelbook.databinding.FragmentColeccionBinding
 class ColeccionFragment : Fragment() {
 
     private var _binding: FragmentColeccionBinding? = null
-    private lateinit var db: AppDatabase
     private var searchMenuItem: MenuItem? = null
 
     private lateinit var adapter: ViewPagerAdapter
@@ -45,7 +43,6 @@ class ColeccionFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         sharedViewModel = ViewModelProvider(requireActivity())[ColeccionViewModel::class.java]
-        db = AppDatabase.getInstance(requireContext())
         _binding = FragmentColeccionBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val viewPager = binding.viewPager

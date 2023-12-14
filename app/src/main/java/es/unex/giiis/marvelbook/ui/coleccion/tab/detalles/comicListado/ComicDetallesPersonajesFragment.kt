@@ -13,12 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.adapter.ComicPersonajesAdapter
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.Personaje
 import es.unex.giiis.marvelbook.databinding.FragmentComicDetallesPersonajesBinding
 import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.ComicDetallesViewModel
 class ComicDetallesPersonajesFragment : Fragment() {
-    private lateinit var db: AppDatabase
 
     private var _binding: FragmentComicDetallesPersonajesBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +31,6 @@ class ComicDetallesPersonajesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
 
         _binding = FragmentComicDetallesPersonajesBinding.inflate(inflater, container, false)

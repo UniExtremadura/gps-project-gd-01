@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giiis.marvelbook.R
 import es.unex.giiis.marvelbook.adapter.PersonajeMazoAdapterMazo
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.PersonajeMazo
 import es.unex.giiis.marvelbook.databinding.FragmentMazoBinding
 
@@ -23,7 +22,6 @@ class MazoFragment : Fragment() {
 
     private var _binding: FragmentMazoBinding? = null
     private lateinit var adapter: PersonajeMazoAdapterMazo
-    private lateinit var db: AppDatabase
     private lateinit var navController: NavController
 
     private val viewModel: MazoViewModel by viewModels { MazoViewModel.Factory }
@@ -37,7 +35,6 @@ class MazoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        db = AppDatabase.getInstance(requireContext())
 
         _binding = FragmentMazoBinding.inflate(inflater, container, false)
         navController = findNavController()

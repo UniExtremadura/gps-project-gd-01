@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import es.unex.giiis.marvelbook.R
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.Comic
 import es.unex.giiis.marvelbook.databinding.FragmentComicDetallesBinding
 import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.comicListado.ComicDetallesCreadoresFragmentDirections
@@ -20,8 +19,6 @@ import es.unex.giiis.marvelbook.ui.coleccion.tab.detalles.comicListado.ComicDeta
 
 class ComicDetallesFragment : Fragment() {
 
-    private lateinit var db: AppDatabase
-
     private var _binding: FragmentComicDetallesBinding? = null
     private val binding get() = _binding!!
 
@@ -30,7 +27,6 @@ class ComicDetallesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        db = AppDatabase.getInstance(requireContext())
 
         _binding = FragmentComicDetallesBinding.inflate(inflater, container, false)
 
