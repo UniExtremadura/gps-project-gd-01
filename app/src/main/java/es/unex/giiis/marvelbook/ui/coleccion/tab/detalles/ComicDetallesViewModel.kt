@@ -20,8 +20,6 @@ class ComicDetallesViewModel (
     private val repository: Repository,
 ) : ViewModel() {
 
-    var numCreador: Int = 0
-    var numPersonaje: Int = 0
     private var _comicDetalle = MutableLiveData<Comic?>()
     val comicDetalle : LiveData<Comic?>
         get() = _comicDetalle
@@ -54,12 +52,11 @@ class ComicDetallesViewModel (
                         val listPersonajeID = _comic.characters
 
                         if (listCreadoresID != null) {
-                            var listCr: MutableList<Creador> = mutableListOf()
+                            val listCr: MutableList<Creador> = mutableListOf()
                             for (aux in listCreadoresID) {
                                 val creador = repository.getCreatorById(aux.toLong())
                                 if (creador != null) {
                                     listCr.add(creador)
-                                    numCreador++
                                 }
                             }
                             withContext(Dispatchers.Main) {
@@ -68,12 +65,11 @@ class ComicDetallesViewModel (
                         }
 
                         if (listPersonajeID != null) {
-                            var listPers: MutableList<Personaje> = mutableListOf()
+                            val listPers: MutableList<Personaje> = mutableListOf()
                             for (aux in listPersonajeID) {
                                 val personaje = repository.getCharacterById(aux.toLong())
                                 if (personaje != null) {
                                     listPers.add(personaje)
-                                    numPersonaje++
                                 }
                             }
                             withContext(Dispatchers.Main) {

@@ -18,8 +18,6 @@ import kotlinx.coroutines.withContext
 class PersonajeDetallesViewModel (
     private val repository: Repository,
 ) : ViewModel() {
-
-    var numComic: Int = 0
     private var _personajeDetalle = MutableLiveData<Personaje?>()
     val personajeDetalle : LiveData<Personaje?>
         get() = _personajeDetalle
@@ -47,12 +45,11 @@ class PersonajeDetallesViewModel (
                         val listComicsID = _personaje.comics
 
                         if (listComicsID != null) {
-                            var listAux: MutableList<Comic> = mutableListOf()
+                            val listAux: MutableList<Comic> = mutableListOf()
                             for (aux in listComicsID) {
                                 val comic = repository.getComicById(aux.toLong())
                                 if (comic != null) {
                                     listAux.add(comic)
-                                    numComic++
                                 }
                             }
                             withContext(Dispatchers.Main) {

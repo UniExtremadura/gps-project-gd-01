@@ -9,76 +9,66 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import es.unex.giiis.marvelbook.BatallaActivity
 import es.unex.giiis.marvelbook.R
-import es.unex.giiis.marvelbook.database.AppDatabase
-import es.unex.giiis.marvelbook.database.PersonajeMazo
 import es.unex.giiis.marvelbook.databinding.FragmentMazoDetallesBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MazoDetallesFragment : Fragment() {
 
-    private lateinit var db: AppDatabase
     private var _binding: FragmentMazoDetallesBinding? = null
     private val binding get() = _binding!!
     private lateinit var navController: NavController
-    private lateinit var personajeMazo: PersonajeMazo
-    private val mazoDetallesViewModel: MazoDetallesViewModel by viewModels { MazoDetallesViewModel.Factory }
+    private val viewModel: MazoDetallesViewModel by viewModels { MazoDetallesViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        db = AppDatabase.getInstance(requireContext())
         navController = findNavController()
         val personajeMazoID = arguments?.getLong("personajeMazoID")!!
 
         _binding = FragmentMazoDetallesBinding.inflate(inflater, container, false)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            personajeMazo = db.personajeMazoDAO().getById(personajeMazoID)
-            withContext(Dispatchers.Main) {
-                requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
-                    title = personajeMazo.name
-                }
 
-                with(binding) {
-                    nombrePersonaje.text = personajeMazo.name
-                    ratingValue.text = personajeMazo.rating.toString()
-                    defendPersonajeMazo.text = personajeMazo.defense.toString()
-                    powerPersonajeMazo.text = personajeMazo.power.toString()
-                    speedPersonajeMazo.text = personajeMazo.speed.toString()
+        viewModel.obtenerPersonajeID(personajeMazoID) { personajeMazo ->
 
-                    Glide.with(fotoPersonajeMazo.context)
-                        .load(personajeMazo.imagen.toString())
-                        .into(fotoPersonajeMazo)
-                }
+            requireActivity().findViewById<Toolbar>(R.id.toolbar)?.apply {
+                title = personajeMazo.name
+            }
 
-                binding.botonBatalla.setOnClickListener {
-                    val intent = Intent(requireContext(), BatallaActivity::class.java)
-                    intent.putExtra("personajeMazoID", personajeMazo.id)
-                    startActivity(intent)
-                }
+            with(binding) {
+                nombrePersonaje.text = personajeMazo.name
+                ratingValue.text = personajeMazo.rating.toString()
+                defendPersonajeMazo.text = personajeMazo.defense.toString()
+                powerPersonajeMazo.text = personajeMazo.power.toString()
+                speedPersonajeMazo.text = personajeMazo.speed.toString()
 
-                binding.botonVender.setOnClickListener {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        val user = mazoDetallesViewModel.getUsuario()
-                        user.monedas = user.monedas?.plus(4)
-                        db.usuarioDAO().updateUsuario(user)
+                Glide.with(fotoPersonajeMazo.context)
+                    .load(personajeMazo.imagen.toString())
+                    .into(fotoPersonajeMazo)
+            }
 
-                        db.personajeMazoDAO().eliminarPersonajesMazo(personajeMazo.id)
+            binding.botonBatalla.setOnClickListener {
+                val intent = Intent(requireContext(), BatallaActivity::class.java)
+                intent.putExtra("personajeMazoID", personajeMazo.id)
+                startActivity(intent)
+            }
+
+            binding.botonVender.setOnClickListener {
+                viewModel.venderPersonaje(personajeMazo.id)
+                viewModel.toast.observe(viewLifecycleOwner) { text ->
+                    text?.let {
+                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+                        viewModel.onToastShown()
                     }
-                    Toast.makeText(requireContext(), "Personaje vendido por 4 monedas", Toast.LENGTH_SHORT).show()
-                    navController.navigateUp()
                 }
+               navController.navigateUp()
             }
         }
+
         return binding.root
     }
 

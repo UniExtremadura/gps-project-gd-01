@@ -59,13 +59,22 @@ class Repository(
         usuarioDAO.insertarUsuario(usuario)
         this.usuario = usuario
     }
-
+    fun getAllPersonajeMazo(id: Long): List<PersonajeMazo> {
+        return personajeMazoDAO.getAll(id)
+    }
     fun getPersonajeMazoByID(id: Long): PersonajeMazo {
         return personajeMazoDAO.getById(id)
     }
 
     fun savePersonajeMazo(personajeMazo: PersonajeMazo) {
         return personajeMazoDAO.insertarPersonajeMazo(personajeMazo)
+    }
+    fun updatePersonajeMazo(personajeMazo: PersonajeMazo) {
+        return personajeMazoDAO.updatePersonajeMazo(personajeMazo)
+    }
+
+    fun deletePersonajeMazo(id: Long) {
+        return personajeMazoDAO.eliminarPersonajesMazo(id)
     }
 
     fun getAllCharacters(): List<Personaje>{
