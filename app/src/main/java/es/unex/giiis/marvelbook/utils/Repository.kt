@@ -12,6 +12,8 @@ import es.unex.giiis.marvelbook.database.Creador
 import es.unex.giiis.marvelbook.database.CreadorDAO
 import es.unex.giiis.marvelbook.database.Personaje
 import es.unex.giiis.marvelbook.database.PersonajeDAO
+import es.unex.giiis.marvelbook.database.PersonajeMazo
+import es.unex.giiis.marvelbook.database.PersonajeMazoDAO
 import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.database.UsuarioDAO
 
@@ -20,6 +22,7 @@ class Repository(
     private val comicDAO: ComicDAO,
     private val creadorDAO: CreadorDAO,
     private val usuarioDAO: UsuarioDAO,
+    private val personajeMazoDAO: PersonajeMazoDAO,
     private val marvelAPI: MarvelAPI,
 ) {
     val personajes = personajeDAO.getAll1()
@@ -33,10 +36,6 @@ class Repository(
 
     fun findByEmail(email: String): Usuario? {
         return usuarioDAO.findByEmail(email)
-    }
-
-    fun getAllCharacters(): List<Personaje>{
-        return personajeDAO.getAll()
     }
 
     fun getCharacterById(id:Long): Personaje?{
@@ -56,6 +55,23 @@ class Repository(
         this.usuario = usuario
     }
 
+    fun createUsuario(usuario: Usuario) {
+        usuarioDAO.insertarUsuario(usuario)
+        this.usuario = usuario
+    }
+
+    fun getPersonajeMazoByID(id: Long): PersonajeMazo {
+        return personajeMazoDAO.getById(id)
+    }
+
+    fun savePersonajeMazo(personajeMazo: PersonajeMazo) {
+        return personajeMazoDAO.insertarPersonajeMazo(personajeMazo)
+    }
+
+    fun getAllCharacters(): List<Personaje>{
+        return personajeDAO.getAll()
+    }
+
     fun getAllComics(): List<Comic>{
         return comicDAO.getAll()
     }
@@ -66,7 +82,7 @@ class Repository(
 
     private suspend fun fetchCharacters() {
         try {
-            for (i in 0..1000 step 20) {
+            for (i in 0..100 step 20) {
                 for (aux in marvelAPI.getPersonajes(i).data?.results ?: listOf()) {
                     personajeDAO.insertarPersonaje(aux.toPersonaje())
                 }
@@ -84,7 +100,7 @@ class Repository(
 
     private suspend fun fetchComics() {
         try {
-            for (i in 0..1000 step 20) {
+            for (i in 0..100 step 20) {
                 for (aux in marvelAPI.getComics(i).data?.results ?: listOf()) {
                     comicDAO.insertarComic(aux.toComic())
                 }
@@ -102,7 +118,7 @@ class Repository(
 
     private suspend fun fetchCreador() {
         try {
-            for (i in 0..1000 step 20) {
+            for (i in 0..100 step 20) {
                 for (aux in marvelAPI.getCreadores(i).data?.results ?: listOf()) {
                     creadorDAO.insertarCreador(aux.toCreador())
                 }

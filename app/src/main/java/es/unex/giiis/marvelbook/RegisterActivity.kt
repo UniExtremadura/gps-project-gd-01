@@ -6,19 +6,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.util.PatternsCompat
-import androidx.lifecycle.lifecycleScope
 import es.unex.giiis.marvelbook.databinding.ActivityRegisterBinding
-import es.unex.giiis.marvelbook.database.AppDatabase
 import es.unex.giiis.marvelbook.database.Usuario
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var db: AppDatabase
-    private val mainViewModel: MainViewModel by viewModels { MainViewModel.Factory }
+    private val viewModel: RegisterViewModel by viewModels { RegisterViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,20 +20,13 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        db = AppDatabase.getInstance(applicationContext)
-
         binding.botonRegistro.setOnClickListener{
 
             if (validate()) {
 
-                lifecycleScope.launch(Dispatchers.IO) {
-
-                    val usuarioEmail = db.usuarioDAO().findByEmail(binding.emailRegistro.text.toString())
-
+                viewModel.getUsuarioByEmail(binding.emailRegistro.text.toString()) { usuarioEmail ->
                     if(usuarioEmail != null) {
-                        withContext(Dispatchers.Main) {
-                            binding.emailRegistro.error = "Este email ya está registrado"
-                        }
+                        binding.emailRegistro.error = "Este email ya está registrado"
                     }
                     else{
                         val usuario = Usuario(
@@ -48,25 +35,16 @@ class RegisterActivity : AppCompatActivity() {
                             password = binding.passwordRegistro.text.toString(),
                             monedas = 100,
                         )
-                        db.usuarioDAO().insertarUsuario(usuario)
-                        val userID = db.usuarioDAO().findByEmail(usuario.email)?.id
+                        viewModel.saveUsuario(usuario)
 
-
-                        // Cambiar al hilo principal para mostrar el Toast y navegar a otra actividad
-                        withContext(Dispatchers.Main) {
-                            val context = this@RegisterActivity
-                            Toast.makeText(applicationContext, "Se ha registrado correctamente", Toast.LENGTH_LONG).show()
-                            val intent =  Intent(context, MainActivity::class.java)
-                            mainViewModel.refrescarUsuario(userID!!)
-                            startActivity(intent)
-                        }
+                        val context = this@RegisterActivity
+                        Toast.makeText(applicationContext, "Se ha registrado correctamente", Toast.LENGTH_LONG).show()
+                        val intent =  Intent(context, MainActivity::class.java)
+                        startActivity(intent)
                     }
                 }
-
             }
-
         }
-
     }
 
     private fun validate(): Boolean {
@@ -74,8 +52,6 @@ class RegisterActivity : AppCompatActivity() {
         result.add(validateNombreRegistro())
         result.add(validateEmail())
         result.add(validatePassword())
-
-
 
         for (i in 0 until result.size) {
             if (!result[i]) {

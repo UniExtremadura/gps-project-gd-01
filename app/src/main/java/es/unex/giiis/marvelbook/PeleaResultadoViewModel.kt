@@ -1,26 +1,26 @@
-package es.unex.giiis.marvelbook.ui.tienda
+package es.unex.giiis.marvelbook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import es.unex.giiis.marvelbook.MarvelApplication
-import es.unex.giiis.marvelbook.database.Usuario
+import es.unex.giiis.marvelbook.database.PersonajeMazo
 import es.unex.giiis.marvelbook.utils.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class TiendaViewModel(
+class PeleaResultadoViewModel(
     private val repository: Repository
 ) : ViewModel() {
 
-    fun getUsuario(): Usuario {
-        return repository.usuario!!
-    }
+    fun obtenerPersonajeID(id: Long, callback: (PersonajeMazo) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val personaje = repository.getPersonajeMazoByID(id)
 
-    fun updateUsuario(usuario: Usuario) {
-        viewModelScope.launch(Dispatchers.IO){
-            repository.updateUsuario(usuario)
+            withContext(Dispatchers.Main) {
+                callback(personaje)
+            }
         }
     }
 
@@ -34,11 +34,12 @@ class TiendaViewModel(
             ): T {
                 val application = checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
 
-                return TiendaViewModel(
+                return PeleaResultadoViewModel(
                     (application as MarvelApplication).appContainer.repository,
 
                     ) as T
             }
         }
     }
+
 }

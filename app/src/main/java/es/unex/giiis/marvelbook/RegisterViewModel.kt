@@ -1,26 +1,30 @@
-package es.unex.giiis.marvelbook.ui.tienda
+package es.unex.giiis.marvelbook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import es.unex.giiis.marvelbook.MarvelApplication
 import es.unex.giiis.marvelbook.database.Usuario
 import es.unex.giiis.marvelbook.utils.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class TiendaViewModel(
+class RegisterViewModel(
     private val repository: Repository
 ) : ViewModel() {
-
-    fun getUsuario(): Usuario {
-        return repository.usuario!!
+    fun getUsuarioByEmail(email: String, callback: (Usuario?) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val usuarioAux = repository.findByEmail(email)
+            withContext(Dispatchers.Main) {
+                callback(usuarioAux)
+            }
+        }
     }
 
-    fun updateUsuario(usuario: Usuario) {
+    fun saveUsuario(usuario: Usuario) {
         viewModelScope.launch(Dispatchers.IO){
-            repository.updateUsuario(usuario)
+            repository.createUsuario(usuario)
         }
     }
 
@@ -34,7 +38,7 @@ class TiendaViewModel(
             ): T {
                 val application = checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
 
-                return TiendaViewModel(
+                return RegisterViewModel(
                     (application as MarvelApplication).appContainer.repository,
 
                     ) as T
