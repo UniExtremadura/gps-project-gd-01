@@ -91,7 +91,7 @@ class Repository(
 
     private suspend fun fetchCharacters() {
         try {
-            for (i in 0..100 step 20) {
+            for (i in 0..1000 step 20) {
                 for (aux in marvelAPI.getPersonajes(i).data?.results ?: listOf()) {
                     personajeDAO.insertarPersonaje(aux.toPersonaje())
                 }
@@ -109,7 +109,7 @@ class Repository(
 
     private suspend fun fetchComics() {
         try {
-            for (i in 0..100 step 20) {
+            for (i in 0..1000 step 20) {
                 for (aux in marvelAPI.getComics(i).data?.results ?: listOf()) {
                     comicDAO.insertarComic(aux.toComic())
                 }
@@ -127,7 +127,7 @@ class Repository(
 
     private suspend fun fetchCreador() {
         try {
-            for (i in 0..100 step 20) {
+            for (i in 0..1000 step 20) {
                 for (aux in marvelAPI.getCreadores(i).data?.results ?: listOf()) {
                     creadorDAO.insertarCreador(aux.toCreador())
                 }
